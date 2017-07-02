@@ -63,11 +63,199 @@ class results_analysis(models.Model):
 	a_41 = fields.Float(string="41")
 	a_42 = fields.Float(string="42")
 
+	zero = fields.Float(string="zero")
+	one = fields.Float(string="one")
+	one_x2 = fields.Float(string="one_x2")
+	one_x3 = fields.Float(string="one_x3")
+	one_two = fields.Float(string="one_two")
+	one_three = fields.Float(string="one_three")
+	two = fields.Float(string="two")
+	two_x2 = fields.Float(string="two_x2")
+	three = fields.Float(string="three")
+	three_one = fields.Float(string="three_one")
+	four = fields.Float(string="four")
+	five = fields.Float(string="five")
+
+	date = fields.Date(string="Date")
+
 	ca_line = fields.One2many('consecutive.analysis', 'ra_id' )
+
+	@api.multi
+	def generate_dated_analysis(self):
+		print 'generate_analysis'
+
+	@api.multi
+	def generate_analysis(self):
+		print 'generate_analysis'
+
+		consecutive_analysis_obj = self.pool.get('consecutive.analysis')
+
+
+		query=	"""
+					SELECT
+						lr.year,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'zero')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as zero,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive like 'one_x2')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_x2,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_x3')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_x3,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_two')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_two,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_three')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_three,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'two')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as two,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'two_x2')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as two_x2,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'three')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as three,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'three_one')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as three_one,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'four')::DECIMAL 
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as four,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'five')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL 
+						), 2) *100 as five,
+						
+						(SELECT count(*) FROM lotto_records WHERE year = lr.year ) as all
+
+					FROM
+						(SELECT DISTINCT year FROM lotto_records) as lr
+
+
+					UNION ALL
+
+					SELECT
+						'current',
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'zero')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as zero,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive like 'one_x2')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_x2,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_x3')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_x3,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_two')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_two,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'one_three')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as one_three,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'two')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as two,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'two_x2')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as two_x2,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'three')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as three,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'three_one')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as three_one,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'four')::DECIMAL 
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL
+						), 2) *100 as four,
+						round((
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year AND consecutive = 'five')::DECIMAL
+							/
+							(SELECT count(*) FROM lotto_records WHERE year = lr.year )::DECIMAL 
+						), 2) *100 as five,
+						
+						(SELECT count(*) FROM lotto_records WHERE year = lr.year ) as all
+
+					FROM
+						(SELECT year, date_drawn FROM lotto_records limit 1) as lr WHERE lr.year::INT = extract('year' from CURRENT_DATE) AND lr.date_drawn <= CURRENT_DATE
+
+					ORDER BY year ASC
+
+				"""
+		self._cr.execute(query)
+		result = self._cr.fetchall()
+
+		#remove existing analysis
+		consecutive_analysis_ids = consecutive_analysis_obj.search(self.env.cr,self.env.uid, [('ra_id','=',self.id)], order="name desc")
+
+		for rowx in consecutive_analysis_ids:	
+			print rowx
+			consecutive_analysis_obj.unlink(self.env.cr,self.env.uid, rowx, context=None)
+
+		#create new analysis
+		for row in result:		
+			print row		
+			val = {'ra_id':self.id,'name':row[0],'zero':row[1],'one':row[2],'one_x2':row[3],'one_x3':row[4],'one_two':row[5],'one_three':row[6],'two':row[7],'two_x2':row[8],'three':row[9],'three_one':row[10],'four':row[11],'five':row[12]}
+			consecutive_analysis_obj.create(self.env.cr,self.env.uid, val, context=None)
+
 
 class consucutive_analysis(models.Model): 
 	_name = 'consecutive.analysis'
 
+	year = fields.Integer(string="Year")
+	name = fields.Char()
 	zero = fields.Float(string="zero")
 	one = fields.Float(string="one")
 	one_x2 = fields.Float(string="one_x2")

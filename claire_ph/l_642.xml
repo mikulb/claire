@@ -29,7 +29,45 @@
 					<h1>Lotto 6/42</h1>
 					<br/>
 					<br/>
+					<group name="group_date">
+						<field name="date"/>
+						
+					</group>
+					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
+					<group name="group_consecutive" string="Analysis by Date">
 
+						<field name="zero" readonly="True"/>
+						<field name="one" readonly="True"/>
+						<field name="one_x2" readonly="True"/>
+						<field name="one_x3" readonly="True"/>
+						<field name="one_two" readonly="True"/>
+						<field name="one_three" readonly="True"/>
+						<field name="two" readonly="True"/>
+						<field name="two_x2" readonly="True"/>
+						<field name="three" readonly="True"/>
+						<field name="three_one" readonly="True"/>
+						<field name="four" readonly="True"/>
+						<field name="five" readonly="True"/>
+					</group>
+					<button name="generate_analysis" string="Generate" type="object" class="oe_highlight" />
+
+					<field name="ca_line">
+						<tree editable="ra_id">
+							<field name="name"/>
+							<field name="zero" readonly="True"/>
+							<field name="one" readonly="True"/>
+							<field name="one_x2" readonly="True"/>
+							<field name="one_x3" readonly="True"/>
+							<field name="one_two" readonly="True"/>
+							<field name="one_three" readonly="True"/>
+							<field name="two" readonly="True"/>
+							<field name="two_x2" readonly="True"/>
+							<field name="three" readonly="True"/>
+							<field name="three_one" readonly="True"/>
+							<field name="four" readonly="True"/>
+							<field name="five" readonly="True"/>
+						</tree>
+					</field>
 
 
 				</sheet>

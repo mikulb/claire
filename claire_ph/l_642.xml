@@ -18,6 +18,25 @@
 
 		</record>
 
+		<!-- Lotto Records Analysis - Form view -->
+		<record id="view_records_analysis_form" model="ir.ui.view">
+			<field name="name">view.records.analysis.form</field>
+			<field name="model">results.analysis</field>
+			<field name="arch" type="xml">
+				<form string="Lotto Records Analysis">
+				<sheet>
+
+					<h1>Lotto 6/42</h1>
+					<br/>
+					<br/>
+
+
+
+				</sheet>
+				</form>
+			</field>
+		</record>
+
 		<!-- Lotto results - Form view -->
 		<record id="view_lotto_results_records_form" model="ir.ui.view">
 			<field name="name">view.lotto.results.records.form</field>
@@ -178,6 +197,18 @@
 				<tree string="Lotto Results">
 						<field name="name" />
 						<field name="date_drawn" />
+
+				</tree>
+			</field>
+		</record>
+
+		<!-- Lotto Records Analysis - Tree view -->
+		<record id="view_records_analysis_tree" model="ir.ui.view">
+			<field name="name">view.records.analysis.tree</field>
+			<field name="model">results.analysis</field>
+			<field name="arch" type="xml">
+				<tree string="Lotto Records Analysis">
+						<field name="name" />
 
 				</tree>
 			</field>
@@ -368,6 +399,35 @@
 		</record>
 		<!-- ====================================================================== -->
 
+		<!-- ====================================================================== -->
+		<!-- Encode: Records Analysis action -->
+		<record id="action_records_analysis" model="ir.actions.act_window">
+			<field name="name">Lotto Records Analysis</field>
+			<field name="res_model">results.analysis</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Encode: Records Analysis tree-->
+		<record model="ir.actions.act_window.view" id="action_records_analysis_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_records_analysis_tree"/>
+			<field name="act_window_id" ref="action_records_analysis"/>
+		</record>
+
+		<!-- Encode: Records Analysis form --> 
+		<record model="ir.actions.act_window.view" id="action_records_analysis_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_records_analysis_form"/>
+			<field name="act_window_id" ref="action_records_analysis"/>
+		</record>
+		<!-- ====================================================================== -->
+
 		<!-- ====================================================================== -->		
 		<!-- ===================== Patern Recognition - ACTION ========================== -->
 		<record id="patern_recognition_methods_action" model="ir.actions.act_window">
@@ -381,9 +441,10 @@
 		<!-- ====================================================================== -->
 
 
-
+		<!-- Lotto 6/42 -->
 		<menuitem name="Lotto 642" id="main_lotto_menu" sequence="1" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
 
+		<!-- Lotto Results -->
 		<menuitem id="results_menu" name="Lotto Results" parent="main_lotto_menu" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
 
 		<menuitem id="encode_lotto_records_menu" name="Encode" parent="results_menu" action="action_encode_lotto_results_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
@@ -392,12 +453,18 @@
 
 		<menuitem id="lotto_records_menu_user_advance" name="6/42 (pro)" parent="results_menu" action="action_lotto_results_records_advance" sequence="3" groups="claire_ph.group_admin,claire_ph.group_user"/>
 
+		<!-- Summary -->
 		<menuitem id="summary_menu" name="Summary" parent="main_lotto_menu" sequence="2" groups="claire_ph.group_admin"/>
 
 		<menuitem id="dated_summary_menu" name="Summary by Date" parent="summary_menu" action="action_dated_summary_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
 
+		<menuitem id="records_analysis_menu" name="Record Analysis" parent="summary_menu" action="action_records_analysis" sequence="2"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
+
+
+		<!-- Configuration -->
 		<menuitem id="configuration_menu" name="Configurations" parent="main_lotto_menu" sequence="3" groups="claire_ph.group_admin"/>
 
+		<!-- Pattern Recognition -->
 		<menuitem id="patern_recognition_menu" parent="main_lotto_menu" name="Patern Recognition" sequence="4"/>
 
 		<menuitem id="patern_recognition_methods_menu" name="Beta A" parent="patern_recognition_menu" action="patern_recognition_methods_action" sequence="1"/>

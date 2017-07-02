@@ -9,6 +9,7 @@ from datetime import datetime
 class results_analysis(models.Model):
 	_name = 'results.analysis'
 
+	name = fields.Char(string="Description")
 	a_year = fields.Integer(string="Year")
 
 	a_1 = fields.Float(string="1")
@@ -62,6 +63,25 @@ class results_analysis(models.Model):
 	a_41 = fields.Float(string="41")
 	a_42 = fields.Float(string="42")
 
+	ca_line = fields.One2many('consecutive.analysis', 'ra_id' )
+
+class consucutive_analysis(models.Model): 
+	_name = 'consecutive.analysis'
+
+	zero = fields.Float(string="zero")
+	one = fields.Float(string="one")
+	one_x2 = fields.Float(string="one_x2")
+	one_x3 = fields.Float(string="one_x3")
+	one_two = fields.Float(string="one_two")
+	one_three = fields.Float(string="one_three")
+	two = fields.Float(string="two")
+	two_x2 = fields.Float(string="two_x2")
+	three = fields.Float(string="three")
+	three_one = fields.Float(string="three_one")
+	four = fields.Float(string="four")
+	five = fields.Float(string="five")
+
+	ra_id = fields.Many2one('results.analysis', 'ca_line', store = True,ondelete='cascade')
 
 
 class pattern_recognition(models.TransientModel):

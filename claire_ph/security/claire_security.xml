@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+
+		
+
+
+		<!-- Grouping -->
+		<record id="module_lotto_user_category" model="ir.module.category">
+			<field name="name">Lottery</field>
+			<field name="sequence">17</field>
+		</record>
+
+		<record id="group_guest" model="res.groups">
+			<field name="name">Guest</field>
+			<field name="category_id" ref="module_lotto_user_category"/>
+			<field name="comment">Guest (free)</field>
+		</record>
+
+		<record id="group_user" model="res.groups">
+			<field name="name">User</field>
+			<field name="category_id" ref="module_lotto_user_category"/>
+			<field name="comment">User</field>
+		</record>
+
+		<record id="group_admin" model="res.groups">
+			<field name="name">Admin</field>
+			<field name="category_id" ref="module_lotto_user_category"/>
+			<field name="comment">Admin</field>
+		</record>
+
+		<record id="group_encoder" model="res.groups">
+			<field name="name">Encoder</field>
+			<field name="category_id" ref="module_lotto_user_category"/>
+			<field name="comment">Encoder</field>
+		</record>
+
+		
+
+	</data>
+
+
+</openerp>

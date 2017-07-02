@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+
+
+		<!--==================================================== Generate====================================================-->
+		<!-- Create parameter view layout : -->
+		<record id="lsgh_generate_records_form" model="ir.ui.view">
+			<field name="name">Generate - Overall Sumamry</field>
+			<field name="model">overall.summary</field>
+			<field name="arch" type="xml">
+				<form string="Generate - Overall Sumamry" version="7.0">
+					
+					<group>
+						<field name="date" style="width: 40%"/>
+					</group>
+					<button name="generate" string="Generate" type="object" class="oe_highlight" />
+
+					<group col="4">
+						<field name="high" style="width: 40%"/>
+						<field name="low" style="width: 40%"/>
+					</group>
+
+					<group>
+						<field name="hl_zero_six" style="width: 40%"/>
+						<field name="hl_one_five" style="width: 40%"/>
+						<field name="hl_two_four" style="width: 40%"/>
+						<field name="hl_three_three" style="width: 40%"/>
+						<field name="hl_four_two" style="width: 40%"/>
+						<field name="hl_five_one" style="width: 40%"/>
+						<field name="hl_six_zero" style="width: 40%"/>
+					</group>
+
+					<group col="4">
+						<field name="odd" style="width: 40%"/>
+						<field name="even" style="width: 40%"/>
+					</group>
+
+					<group>
+						<field name="oe_zero_six" style="width: 40%"/>
+						<field name="oe_one_five" style="width: 40%"/>
+						<field name="oe_two_four" style="width: 40%"/>
+						<field name="oe_three_three" style="width: 40%"/>
+						<field name="oe_four_two" style="width: 40%"/>
+						<field name="oe_five_one" style="width: 40%"/>
+						<field name="oe_six_zero" style="width: 40%"/>
+					</group>
+
+		
+
+				</form>
+			</field>
+		</record>
+
+
+
+
+		<!--==================================================== Generate =====================================================-->
+		<record id="generate_overall_summary" model="ir.actions.act_window">
+			<field name="name">Overall Summary - 642 Lotto</field>
+			<field name="res_model">overall.summary</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+
+		<menuitem id="summary_menu" 
+			parent="claire_ph.main_lotto_menu"
+			name="Results Summary" 
+			groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"
+			sequence="2"/> 
+
+		<menuitem id="overall_summary_menu" 
+			parent="summary_menu"
+			name="Overall Summary" 
+			action="generate_overall_summary" 
+			groups="claire_ph.group_admin,claire_ph.group_user,claire_ph.group_encoder"
+			sequence="1"/> 
+		
+
+
+
+	</data>
+</openerp>

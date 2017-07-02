@@ -1,0 +1,408 @@
+<openerp>
+	<data>
+
+		<!-- More Button : Get Consecutive -->
+		<record id="get_consecutives_btn" model="ir.actions.server">
+			<field name="name">Get Consecutive</field>
+			<field name="model_id" ref="model_lotto_records"/>
+			<field name="state">code</field>
+			<field name="code">action=self.get_consecutives(cr,uid,context.get('active_ids',[]),context=context)</field>
+		</record>
+
+		<record id="action_get_consecutives_btn" model="ir.values">
+			<field name="name">Get Consecutive</field>
+			<field name="value" eval="'ir.actions.server,'+str(ref('get_consecutives_btn'))" />
+			<field name="key">action</field>
+			<field name="model">lotto.records</field>
+			<field name="key2">client_action_multi</field>
+
+		</record>
+
+		<!-- Lotto results - Form view -->
+		<record id="view_lotto_results_records_form" model="ir.ui.view">
+			<field name="name">view.lotto.results.records.form</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<form string="Lotto Results">
+				<sheet>
+
+					<h1>Lotto 6/42</h1>
+					<br/>
+					<br/>
+					<group col="4">
+						<field name="name" style="width: 20" readonly="True" />
+						<field name="date_drawn" readonly="True"/>
+					</group>
+					<br/><br/>
+
+					<center><h3>Odd-Even Combination</h3></center>
+					<group>
+						<field name="odd" readonly="True" />
+						<field name="even" readonly="True" />
+					</group>
+					<br/><br/>
+
+					<center><h3>High-Low Combination</h3></center>
+					<group>
+						<field name="high" readonly="True" />
+						<field name="low" readonly="True" />
+					</group>
+					<br/><br/>
+
+					<center><h3>Sum of Numbers</h3></center>
+					<group>
+						<field name="res_sum" readonly="True" />
+					</group>
+					<br/><br/>
+
+					<center><h3>Consecutive Numbers</h3></center>
+					<group>
+						<field name="consecutive" readonly="True" />
+					</group>
+					<br/><br/>
+
+
+
+				</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- Encode: Lotto results - Form view -->
+		<record id="view_encode_lotto_results_records_form" model="ir.ui.view">
+			<field name="name">view.encode.lotto.results.records.form</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<form string="Lotto Results">
+				<sheet>
+					<h1>Lotto 6/42</h1>
+					<br/>
+					<br/>
+					<group col="4">
+						<field name="x_a" readonly="False" required="True"/>
+						<field name="x_b" readonly="False" required="True"/>
+						<field name="x_c" readonly="False" required="True"/>
+						<field name="x_d" readonly="False" required="True"/>
+						<field name="x_e" readonly="False" required="True"/>
+						<field name="x_f" readonly="False" required="True"/>
+					</group>
+
+					<group col="4">
+						<field name="a" readonly="False" required="False" invisible="True"/>
+						<field name="b" readonly="False" required="False" invisible="True"/>
+						<field name="c" readonly="False" required="False" invisible="True"/>
+						<field name="d" readonly="False" required="False" invisible="True"/>
+						<field name="e" readonly="False" required="False" invisible="True"/>
+						<field name="f" readonly="False" required="False" invisible="True"/>
+					</group>
+
+					<group>
+						<field name="name" style="width: 20" readonly="False"  invisible="True"/>
+						<field name="date_drawn" readonly="False" required="True"/>
+						<field name="odd" readonly="False"  invisible="True"/>
+						<field name="even" readonly="False"  invisible="True"/>
+						<field name="high" readonly="False"  invisible="True"/>
+						<field name="low" readonly="False"  invisible="True"/>
+						<field name="res_sum" readonly="False"  invisible="True"/>
+
+					</group>
+
+					<group>
+						<field name="day" readonly="False"  invisible="True"/>
+						<field name="day_of_week" readonly="False" invisible="True"/>
+						<field name="month" readonly="False"  invisible="True"/>
+						<field name="year" readonly="False"  invisible="True"/>
+
+						<field name="rel_day" readonly="True"  invisible="False"/>
+						<field name="rel_day_of_week" readonly="True" invisible="False"/>
+						<field name="rel_month" readonly="True"  invisible="False"/>
+						<field name="rel_year" readonly="True"  invisible="False"/>
+					</group>
+
+					<group>
+						<button name="get_consecutives" string="Get Consecutives" type="object" class="oe_highlight" />
+					</group>
+
+				</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- Summary: by date - Form view -->
+		<record id="view_dated_summary_results_records_form" model="ir.ui.view">
+			<field name="name">view.dated.summary.results.records.form</field>
+			<field name="model">lotto.records.summary</field>
+			<field name="arch" type="xml">
+				<form string="Summary Result">
+				<sheet>
+					<h1>Lotto 6/42</h1>
+					<br/>
+					<br/>
+
+					<field name="date_drawn" readonly="False" required="True"/>
+					
+					<group>
+						<field name="name" style="width: 20" readonly="False"  invisible="False"/>
+
+						<field name="odd" readonly="False"  invisible="False"/>
+						<field name="even" readonly="False"  invisible="False"/>
+						<field name="high" readonly="False"  invisible="False"/>
+						<field name="low" readonly="False"  invisible="False"/>
+						<field name="res_sum" readonly="False"  invisible="False"/>
+
+					</group>
+
+
+				</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- Lotto results - Tree view -->
+		<record id="view_lotto_results_records_tree" model="ir.ui.view">
+			<field name="name">view.lotto.results.records.tree</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<tree string="Lotto Results">
+						<field name="name" />
+						<field name="date_drawn" />
+
+				</tree>
+			</field>
+		</record>
+
+		<!-- Summary - Tree view -->
+		<record id="view_dated_summary_records_tree" model="ir.ui.view">
+			<field name="name">lotto.records.summary</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<tree string="Lotto Results">
+						<field name="name" />
+						<field name="date_drawn" />
+
+				</tree>
+			</field>
+		</record>
+
+		<!-- Lotto results - Tree view : Advance-->
+		<record id="advance_view_lotto_results_records_tree" model="ir.ui.view">
+			<field name="name">view.lotto.results.records.tree</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<tree string="Lotto Results">
+						<field name="name" />
+						<field name="date_drawn" />
+						<field name="odd" />
+						<field name="even" />
+						<field name="high" />
+						<field name="low" />
+						<field name="res_sum" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="advance_lotto_results_records_search" model="ir.ui.view">
+			<field name="name">advance.lotto.results.records.search</field>
+			<field name="model">lotto.records</field>
+			<field name="arch" type="xml">
+				<search string="Lotto Results">
+						<field name="year"/>
+						<field name="month" />
+						<field name="day" />
+						<field name="day_of_week" />
+						
+						
+
+					<group string="Group by ...">
+						<filter string="Year" name="group_year" domain="[]" context="{'group_by':'year'}" />
+						<filter string="Day" name="group_day" domain="[]" context="{'group_by':'day'}" />
+						<filter string="Month" name="group_month" domain="[]" context="{'group_by':'month'}" />
+						<filter string="Day of Week" name="group_day_of_week" domain="[]" context="{'group_by':'day_of_week'}" />
+						
+						
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<!-- Patern Recognition - Form View  -->
+		<record id="pattern_recognition_form_view" model="ir.ui.view">
+			<field name="name">pattern.recognition.form.view</field>
+			<field name="model">pattern.recognition</field>
+			<field name="arch" type="xml">
+				<form string="Pattern Recognition">
+					<sheet>
+						<separator string="Pattern Recognition"/>
+						<br/>
+						<group>
+							<h3>Method 1</h3><br/>
+							<p>The button will sync the new Employee records from HRIS to Odoo system. 
+							</p>
+							<button name="find_pattern_consecutive" string="Execute" type="object"/>
+							<br/>
+							<br/>
+						</group>
+						<group>
+							<h3>Method 2</h3><br/>
+							<p>The button will update the Employee records.
+							</p>
+							<button name="find_pattern_consecutive" string="Execute" type="object"/>
+							<br/>
+							<br/>
+						</group>
+
+
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- ====================================================================== -->
+		<!-- Lotto results action -->
+		<record id="action_lotto_results_records" model="ir.actions.act_window">
+			<field name="name">Lotto Results</field>
+			<field name="res_model">lotto.records</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Lotto results tree-->
+		<record model="ir.actions.act_window.view" id="action_lotto_results_records_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_lotto_results_records_tree"/>
+			<field name="act_window_id" ref="action_lotto_results_records"/>
+		</record>
+
+		<!-- Lotto results form --> 
+		<record model="ir.actions.act_window.view" id="action_lotto_results_records_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_lotto_results_records_form"/>
+			<field name="act_window_id" ref="action_lotto_results_records"/>
+		</record>
+		<!-- ====================================================================== -->
+		<!-- Lotto results action : Advance-->
+		<record id="action_lotto_results_records_advance" model="ir.actions.act_window">
+			<field name="name">Lotto Results</field>
+			<field name="res_model">lotto.records</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{'search_default_group_year':1,'search_default_group_month':1,'search_default_group_day_of_week':1}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Lotto results tree : Advance-->
+		<record model="ir.actions.act_window.view" id="action_lotto_results_records_tree_view_advance">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="advance_view_lotto_results_records_tree"/>
+			<field name="act_window_id" ref="action_lotto_results_records_advance"/>
+		</record>
+
+		<!-- Lotto results form : Advance--> 
+		<record model="ir.actions.act_window.view" id="action_lotto_results_records_form_view_advance">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_lotto_results_records_form"/>
+			<field name="act_window_id" ref="action_lotto_results_records_advance"/>
+		</record>
+		<!-- ====================================================================== -->
+		<!-- Encode: Lotto results action -->
+		<record id="action_encode_lotto_results_records" model="ir.actions.act_window">
+			<field name="name">Lotto Results</field>
+			<field name="res_model">lotto.records</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Encode: Lotto results tree-->
+		<record model="ir.actions.act_window.view" id="action_encode_lotto_results_records_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_lotto_results_records_tree"/>
+			<field name="act_window_id" ref="action_encode_lotto_results_records"/>
+		</record>
+
+		<!-- Encode: Lotto results form --> 
+		<record model="ir.actions.act_window.view" id="action_encode_lotto_results_records_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_encode_lotto_results_records_form"/>
+			<field name="act_window_id" ref="action_encode_lotto_results_records"/>
+		</record>
+		<!-- ====================================================================== -->
+
+		<!-- ====================================================================== -->
+		<!-- Encode: Lotto results action -->
+		<record id="action_dated_summary_records" model="ir.actions.act_window">
+			<field name="name">Lotto Records Sumamry</field>
+			<field name="res_model">lotto.records.summary</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Encode: Lotto results tree-->
+		<record model="ir.actions.act_window.view" id="action_dated_summary_records_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_dated_summary_records_tree"/>
+			<field name="act_window_id" ref="action_dated_summary_records"/>
+		</record>
+
+		<!-- Encode: Lotto results form --> 
+		<record model="ir.actions.act_window.view" id="action_dated_summary_records_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_dated_summary_results_records_form"/>
+			<field name="act_window_id" ref="action_dated_summary_records"/>
+		</record>
+		<!-- ====================================================================== -->
+
+		<!-- ====================================================================== -->		
+		<!-- ===================== Patern Recognition - ACTION ========================== -->
+		<record id="patern_recognition_methods_action" model="ir.actions.act_window">
+			<field name="name">Patern Recognition</field>
+			<field name="res_model">pattern.recognition</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="search_view_id" eval="False"/>
+		</record>
+
+		<!-- ====================================================================== -->
+
+
+
+		<menuitem name="Lotto 642" id="main_lotto_menu" sequence="1" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
+
+		<menuitem id="results_menu" name="Lotto Results" parent="main_lotto_menu" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
+
+		<menuitem id="encode_lotto_records_menu" name="Encode" parent="results_menu" action="action_encode_lotto_results_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
+
+		<menuitem id="lotto_records_menu_user" name="6/42" parent="results_menu" action="action_lotto_results_records" sequence="2" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user"/>
+
+		<menuitem id="lotto_records_menu_user_advance" name="6/42 (pro)" parent="results_menu" action="action_lotto_results_records_advance" sequence="3" groups="claire_ph.group_admin,claire_ph.group_user"/>
+
+		<menuitem id="summary_menu" name="Summary" parent="main_lotto_menu" sequence="2" groups="claire_ph.group_admin"/>
+
+		<menuitem id="dated_summary_menu" name="Summary by Date" parent="summary_menu" action="action_dated_summary_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
+
+		<menuitem id="configuration_menu" name="Configurations" parent="main_lotto_menu" sequence="3" groups="claire_ph.group_admin"/>
+
+		<menuitem id="patern_recognition_menu" parent="main_lotto_menu" name="Patern Recognition" sequence="4"/>
+
+		<menuitem id="patern_recognition_methods_menu" name="Beta A" parent="patern_recognition_menu" action="patern_recognition_methods_action" sequence="1"/>
+
+
+
+	</data>
+</openerp>

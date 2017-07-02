@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_lotto_records_admin,lotto_records.admin,model_lotto_records,claire_ph.group_admin,1,1,1,1
+access_lotto_records_encoder,lotto_records.encoder,model_lotto_records,claire_ph.group_encoder,1,1,1,0
+access_lotto_records_user,lotto_records.user,model_lotto_records,claire_ph.group_user,1,1,1,0
+access_lotto_records_guest,lotto_records.guest,model_lotto_records,claire_ph.group_guest,1,1,1,0
+
+

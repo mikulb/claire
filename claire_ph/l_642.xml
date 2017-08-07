@@ -29,26 +29,64 @@
 					<h1>Lotto 6/42</h1>
 					<br/>
 					<br/>
+
 					<group name="group_date">
+						<field name="name"/>
 						<field name="date"/>
 						
 					</group>
-					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
-					<group name="group_consecutive" string="Analysis by Date">
 
-						<field name="zero" readonly="True"/>
-						<field name="one" readonly="True"/>
-						<field name="one_x2" readonly="True"/>
-						<field name="one_x3" readonly="True"/>
-						<field name="one_two" readonly="True"/>
-						<field name="one_three" readonly="True"/>
-						<field name="two" readonly="True"/>
-						<field name="two_x2" readonly="True"/>
-						<field name="three" readonly="True"/>
-						<field name="three_one" readonly="True"/>
-						<field name="four" readonly="True"/>
-						<field name="five" readonly="True"/>
+					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
+
+					<group col="4">
+						
+		
+						<group name="group_consecutive" string="Analysis by Date">
+							<field name="zero" readonly="True"/>
+							<field name="one" readonly="True"/>
+							<field name="one_x2" readonly="True"/>
+							<field name="one_x3" readonly="True"/>
+							<field name="one_two" readonly="True"/>
+							<field name="one_three" readonly="True"/>
+							<field name="two" readonly="True"/>
+							<field name="two_x2" readonly="True"/>
+							<field name="three" readonly="True"/>
+							<field name="three_one" readonly="True"/>
+							<field name="four" readonly="True"/>
+							<field name="five" readonly="True"/>
+						</group>
+
+						<group name="group_consecutive_prediction" string="Prediction">
+							<field nolabel="0" name="a_zero" readonly="True"/>
+							<field nolabel="0" name="a_one" readonly="True"/>
+							<field nolabel="0" name="a_one_x2" readonly="True"/>
+							<field nolabel="0" name="a_one_x3" readonly="True"/>
+							<field nolabel="0" name="a_one_two" readonly="True"/>
+							<field nolabel="0" name="a_one_three" readonly="True"/>
+							<field nolabel="0" name="a_two" readonly="True"/>
+							<field nolabel="0" name="a_two_x2" readonly="True"/>
+							<field nolabel="0" name="a_three" readonly="True"/>
+							<field nolabel="0" name="a_three_one" readonly="True"/>
+							<field nolabel="0" name="a_four" readonly="True"/>
+							<field nolabel="0" name="a_five" readonly="True"/>
+						</group>
+
+						<group name="group_consecutive_prediction" string="Statistics">
+							<field nolabel="0" name="b_zero" readonly="True"/>
+							<field nolabel="0" name="b_one" readonly="True"/>
+							<field nolabel="0" name="b_one_x2" readonly="True"/>
+							<field nolabel="0" name="b_one_x3" readonly="True"/>
+							<field nolabel="0" name="b_one_two" readonly="True"/>
+							<field nolabel="0" name="b_one_three" readonly="True"/>
+							<field nolabel="0" name="b_two" readonly="True"/>
+							<field nolabel="0" name="b_two_x2" readonly="True"/>
+							<field nolabel="0" name="b_three" readonly="True"/>
+							<field nolabel="0" name="b_three_one" readonly="True"/>
+							<field nolabel="0" name="b_four" readonly="True"/>
+							<field nolabel="0" name="b_five" readonly="True"/>
+						</group>
 					</group>
+
 					<button name="generate_analysis" string="Generate" type="object" class="oe_highlight" />
 
 					<field name="ca_line">
@@ -247,6 +285,7 @@
 			<field name="arch" type="xml">
 				<tree string="Lotto Records Analysis">
 						<field name="name" />
+						<field name="date" />
 
 				</tree>
 			</field>

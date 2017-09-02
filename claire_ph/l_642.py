@@ -109,8 +109,9 @@ class results_analysis(models.Model):
 
 	@api.multi
 	def generate_dated_analysis(self):
-		print 'generate_analysis'
+		print 'generate_dated_analysis'
 
+		#======================================================================== Analysis by Date ======================================================================== 
 		query="""
 				SELECT
 					lr.date::DATE,
@@ -200,6 +201,97 @@ class results_analysis(models.Model):
 			self.three_one = row['three_one']
 			self.four = row['four']
 			self.five = row['five']
+
+		#======================================================================== Statistics ======================================================================== 
+		query="""
+				SELECT
+					lr.date::DATE,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'zero')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as zero,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'one')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as one,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive like 'one_x2')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as one_x2,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'one_x3')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as one_x3,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'one_two')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as one_two,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'one_three')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as one_three,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'two')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as two,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'two_x2')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as two_x2,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'three')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as three,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'three_one')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as three_one,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'four')::DECIMAL 
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL
+					), 2) *100 as four,
+					round((
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND consecutive = 'five')::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) )::DECIMAL 
+					), 2) *100 as five,
+					
+					(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND date_drawn <= lr.date::DATE ) as all
+
+				FROM
+					(SELECT '%s'::DATE as date ) as lr
+				ORDER BY lr.date::DATE ASC
+		"""%self.date
+
+		print query
+		self._cr.execute(query)
+		result = self._cr.dictfetchall()
+
+		for row in result:
+			print row
+			self.b_zero = row['zero']
+			self.b_one = row['one']
+			self.b_one_x2 = row['one_x2']
+			self.b_one_x3 = row['one_x3']
+			self.b_one_two = row['one_two']
+			self.b_one_three = row['one_three']
+			self.b_two = row['two']
+			self.b_two_x2 = row['two_x2']
+			self.b_three = row['three']
+			self.b_three_one = row['three_one']
+			self.b_four = row['four']
+			self.b_five = row['five']
 
 	@api.multi
 	def generate_analysis(self):
@@ -720,32 +812,32 @@ class lotto_records(models.Model):
 								high = 0
 								low = 0
 
-								if self.a > 22:
+								if self.a > 21:
 									high = high + 1
 								else:
 									low = low + 1
 
-								if self.b > 22:
+								if self.b > 21:
 									high = high + 1
 								else:
 									low = low + 1
 
-								if self.c > 22:
+								if self.c > 21:
 									high = high + 1
 								else:
 									low = low + 1
 
-								if self.d > 22:
+								if self.d > 21:
 									high = high + 1
 								else:
 									low = low + 1
 
-								if self.e > 22:
+								if self.e > 21:
 									high = high + 1
 								else:
 									low = low + 1
 
-								if self.f > 22:
+								if self.f > 21:
 									high = high + 1
 								else:
 									low = low + 1

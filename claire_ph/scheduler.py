@@ -217,32 +217,32 @@ class lotto_records_grab(models.Model):
 							high = 0
 							low = 0
 
-							if int(s_result[0]) > 22:
+							if int(s_result[0]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[1]) > 22:
+							if int(s_result[1]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[2]) > 22:
+							if int(s_result[2]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[3]) > 22:
+							if int(s_result[3]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[4]) > 22:
+							if int(s_result[4]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[5]) > 22:
+							if int(s_result[5]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
@@ -474,32 +474,32 @@ class lotto_records_grab(models.Model):
 							high = 0
 							low = 0
 
-							if int(s_result[0]) > 22:
+							if int(s_result[0]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[1]) > 22:
+							if int(s_result[1]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[2]) > 22:
+							if int(s_result[2]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[3]) > 22:
+							if int(s_result[3]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[4]) > 22:
+							if int(s_result[4]) > 21:
 								high = high + 1
 							else:
 								low = low + 1
 
-							if int(s_result[5]) > 22:
+							if int(s_result[5]) > 21:
 								high = high + 1
 							else:
 								low = low + 1

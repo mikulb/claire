@@ -12,6 +12,59 @@ class results_analysis(models.Model):
 	name = fields.Char(string="Description")
 	a_year = fields.Integer(string="Year")
 
+	#========================================= Analysis by Date
+	x_1 = fields.Float(string="1")
+	x_2 = fields.Float(string="2")
+	x_3 = fields.Float(string="3")
+	x_4 = fields.Float(string="4")
+	x_5 = fields.Float(string="5")
+
+	x_6 = fields.Float(string="6")
+	x_7 = fields.Float(string="7")
+	x_8 = fields.Float(string="8")
+	x_9 = fields.Float(string="9")
+	x_10 = fields.Float(string="10")
+
+	x_11 = fields.Float(string="11")
+	x_12 = fields.Float(string="12")
+	x_13 = fields.Float(string="13")
+	x_14 = fields.Float(string="14")
+	x_15 = fields.Float(string="15")
+
+	x_16 = fields.Float(string="16")
+	x_17 = fields.Float(string="17")
+	x_18 = fields.Float(string="18")
+	x_19 = fields.Float(string="19")
+	x_20 = fields.Float(string="20")
+
+	x_21 = fields.Float(string="21")
+	x_22 = fields.Float(string="22")
+	x_23 = fields.Float(string="23")
+	x_24 = fields.Float(string="24")
+	x_25 = fields.Float(string="25")
+
+	x_26 = fields.Float(string="26")
+	x_27 = fields.Float(string="27")
+	x_28 = fields.Float(string="28")
+	x_29 = fields.Float(string="29")
+	x_30 = fields.Float(string="30")
+
+	x_31 = fields.Float(string="31")
+	x_32 = fields.Float(string="32")
+	x_33 = fields.Float(string="33")
+	x_34 = fields.Float(string="34")
+	x_35 = fields.Float(string="35")
+
+	x_36 = fields.Float(string="36")
+	x_37 = fields.Float(string="37")
+	x_38 = fields.Float(string="38")
+	x_39 = fields.Float(string="39")
+	x_40 = fields.Float(string="40")
+
+	x_41 = fields.Float(string="41")
+	x_42 = fields.Float(string="42")
+
+	#========================================= Prediction
 	a_1 = fields.Float(string="1")
 	a_2 = fields.Float(string="2")
 	a_3 = fields.Float(string="3")
@@ -63,6 +116,59 @@ class results_analysis(models.Model):
 	a_41 = fields.Float(string="41")
 	a_42 = fields.Float(string="42")
 
+	#========================================= Statistics
+	b_1 = fields.Float(string="1")
+	b_2 = fields.Float(string="2")
+	b_3 = fields.Float(string="3")
+	b_4 = fields.Float(string="4")
+	b_5 = fields.Float(string="5")
+
+	b_6 = fields.Float(string="6")
+	b_7 = fields.Float(string="7")
+	b_8 = fields.Float(string="8")
+	b_9 = fields.Float(string="9")
+	b_10 = fields.Float(string="10")
+
+	b_11 = fields.Float(string="11")
+	b_12 = fields.Float(string="12")
+	b_13 = fields.Float(string="13")
+	b_14 = fields.Float(string="14")
+	b_15 = fields.Float(string="15")
+
+	b_16 = fields.Float(string="16")
+	b_17 = fields.Float(string="17")
+	b_18 = fields.Float(string="18")
+	b_19 = fields.Float(string="19")
+	b_20 = fields.Float(string="20")
+
+	b_21 = fields.Float(string="21")
+	b_22 = fields.Float(string="22")
+	b_23 = fields.Float(string="23")
+	b_24 = fields.Float(string="24")
+	b_25 = fields.Float(string="25")
+
+	b_26 = fields.Float(string="26")
+	b_27 = fields.Float(string="27")
+	b_28 = fields.Float(string="28")
+	b_29 = fields.Float(string="29")
+	b_30 = fields.Float(string="30")
+
+	b_31 = fields.Float(string="31")
+	b_32 = fields.Float(string="32")
+	b_33 = fields.Float(string="33")
+	b_34 = fields.Float(string="34")
+	b_35 = fields.Float(string="35")
+
+	b_36 = fields.Float(string="36")
+	b_37 = fields.Float(string="37")
+	b_38 = fields.Float(string="38")
+	b_39 = fields.Float(string="39")
+	b_40 = fields.Float(string="40")
+
+	b_41 = fields.Float(string="41")
+	b_42 = fields.Float(string="42")
+
+
 	zero = fields.Float(string="zero")
 	one = fields.Float(string="one")
 	one_x2 = fields.Float(string="one_x2")
@@ -89,6 +195,7 @@ class results_analysis(models.Model):
 	a_three_one = fields.Float(string="three_one")
 	a_four = fields.Float(string="four")
 	a_five = fields.Float(string="five")
+
 
 	b_zero = fields.Float(string="zero")
 	b_one = fields.Float(string="one")
@@ -177,7 +284,6 @@ class results_analysis(models.Model):
 					), 2) *100 as five,
 					
 					(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from lr.date::DATE) AND date_drawn <= lr.date::DATE ) as all
-
 				FROM
 					(SELECT '%s'::DATE as date ) as lr
 				ORDER BY lr.date::DATE ASC
@@ -201,6 +307,445 @@ class results_analysis(models.Model):
 			self.three_one = row['three_one']
 			self.four = row['four']
 			self.five = row['five']
+
+		query="""
+				SELECT
+					yr.date::DATE,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 1 OR lr.b = 1 OR lr.c = 1 OR lr.d = 1 OR lr.e = 1 OR lr.f = 1) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as one,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 2 OR lr.b = 2 OR lr.c = 2 OR lr.d = 2 OR lr.e = 2 OR lr.f = 2) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as two,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 3 OR lr.b = 3 OR lr.c = 3 OR lr.d = 3 OR lr.e = 3 OR lr.f = 3) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as three,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 4 OR lr.b = 4 OR lr.c = 4 OR lr.d = 4 OR lr.e = 4 OR lr.f = 4) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as four,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 5 OR lr.b = 5 OR lr.c = 5 OR lr.d = 5 OR lr.e = 5 OR lr.f = 5) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as five,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 6 OR lr.b = 6 OR lr.c = 6 OR lr.d = 6 OR lr.e = 6 OR lr.f = 6) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as six,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 7 OR lr.b = 7 OR lr.c = 7 OR lr.d = 7 OR lr.e = 7 OR lr.f = 7) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as seven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 8 OR lr.b = 8 OR lr.c = 8 OR lr.d = 8 OR lr.e = 8 OR lr.f = 8) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as eight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 9 OR lr.b = 9 OR lr.c = 9 OR lr.d = 9 OR lr.e = 9 OR lr.f = 9) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as nine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 10 OR lr.b = 10 OR lr.c = 10 OR lr.d = 10 OR lr.e = 10 OR lr.f = 10) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as ten,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 11 OR lr.b = 11 OR lr.c = 11 OR lr.d = 11 OR lr.e = 11 OR lr.f = 11) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as eleven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 12 OR lr.b = 12 OR lr.c = 12 OR lr.d = 12 OR lr.e = 12 OR lr.f = 12) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twelve,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 13 OR lr.b = 13 OR lr.c = 13 OR lr.d = 13 OR lr.e = 13 OR lr.f = 13) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 14 OR lr.b = 14 OR lr.c = 14 OR lr.d = 14 OR lr.e = 14 OR lr.f = 14) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as fourteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 15 OR lr.b = 15 OR lr.c = 15 OR lr.d = 15 OR lr.e = 15 OR lr.f = 15) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as fifteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 16 OR lr.b = 16 OR lr.c = 16 OR lr.d = 16 OR lr.e = 16 OR lr.f = 16) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as sixteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 17 OR lr.b = 17 OR lr.c = 17 OR lr.d = 17 OR lr.e = 17 OR lr.f = 17) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as seventeen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 18 OR lr.b = 18 OR lr.c = 18 OR lr.d = 18 OR lr.e = 18 OR lr.f = 18) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as eighteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 19 OR lr.b = 19 OR lr.c = 19 OR lr.d = 19 OR lr.e = 19 OR lr.f = 19) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as nineteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 20 OR lr.b = 20 OR lr.c = 20 OR lr.d = 20 OR lr.e = 20 OR lr.f = 20) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twenty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 21 OR lr.b = 21 OR lr.c = 21 OR lr.d = 21 OR lr.e = 21 OR lr.f = 21) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentyone,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 22 OR lr.b = 22 OR lr.c = 22 OR lr.d = 22 OR lr.e = 22 OR lr.f = 22) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentytwo,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 23 OR lr.b = 23 OR lr.c = 23 OR lr.d = 23 OR lr.e = 23 OR lr.f = 23) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentythree,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 24 OR lr.b = 24 OR lr.c = 24 OR lr.d = 24 OR lr.e = 24 OR lr.f = 24) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentyfour,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 25 OR lr.b = 25 OR lr.c = 25 OR lr.d = 25 OR lr.e = 25 OR lr.f = 25) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentyfive,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 26 OR lr.b = 26 OR lr.c = 26 OR lr.d = 26 OR lr.e = 26 OR lr.f = 26) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentysix,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 27 OR lr.b = 27 OR lr.c = 27 OR lr.d = 27 OR lr.e = 27 OR lr.f = 27) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentyseven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 28 OR lr.b = 28 OR lr.c = 28 OR lr.d = 28 OR lr.e = 28 OR lr.f = 28) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentyeight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 29 OR lr.b = 29 OR lr.c = 29 OR lr.d = 29 OR lr.e = 29 OR lr.f = 29) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as twentynine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 30 OR lr.b = 30 OR lr.c = 30 OR lr.d = 30 OR lr.e = 30 OR lr.f = 30) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 31 OR lr.b = 31 OR lr.c = 31 OR lr.d = 31 OR lr.e = 31 OR lr.f = 31) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtyone,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 32 OR lr.b = 32 OR lr.c = 32 OR lr.d = 32 OR lr.e = 32 OR lr.f = 32) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtytwo,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 33 OR lr.b = 33 OR lr.c = 33 OR lr.d = 33 OR lr.e = 33 OR lr.f = 33) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtythree,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 34 OR lr.b = 34 OR lr.c = 34 OR lr.d = 34 OR lr.e = 34 OR lr.f = 34) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtyfour,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 35 OR lr.b = 35 OR lr.c = 35 OR lr.d = 35 OR lr.e = 35 OR lr.f = 35) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtyfive,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 36 OR lr.b = 36 OR lr.c = 36 OR lr.d = 36 OR lr.e = 36 OR lr.f = 36) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtysix,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 37 OR lr.b = 37 OR lr.c = 37 OR lr.d = 37 OR lr.e = 37 OR lr.f = 37) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtyseven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 38 OR lr.b = 38 OR lr.c = 38 OR lr.d = 38 OR lr.e = 38 OR lr.f = 38) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtyeight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 39 OR lr.b = 39 OR lr.c = 39 OR lr.d = 39 OR lr.e = 39 OR lr.f = 39) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as thirtynine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 40 OR lr.b = 40 OR lr.c = 40 OR lr.d = 40 OR lr.e = 40 OR lr.f = 40) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as fourty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 41 OR lr.b = 41 OR lr.c = 41 OR lr.d = 41 OR lr.e = 41 OR lr.f = 41) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as fourtyone,
+						round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 41 OR lr.b = 41 OR lr.c = 41 OR lr.d = 41 OR lr.e = 41 OR lr.f = 41) AND lr.date_drawn >= (extract('year' from yr.date::DATE)||'-01-01')::DATE AND lr.date_drawn <= yr.date::DATE)::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE )::DECIMAL
+					), 2) *100 as fourtytwo,				
+
+
+					(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) AND date_drawn <= yr.date::DATE ) as all
+
+				FROM
+					(SELECT '%s'::DATE as date ) as yr
+				ORDER BY yr.date::DATE ASC
+		"""%self.date
+
+		print query
+		self._cr.execute(query)
+		result = self._cr.dictfetchall()
+
+		for row in result:
+			print row
+			self.x_1 = row['one']
+			self.x_2 = row['two']
+			self.x_3 = row['three']
+			self.x_4 = row['four']
+			self.x_5 = row['five']
+			self.x_6 = row['six']
+			self.x_7 = row['seven']
+			self.x_8 = row['eight']
+			self.x_9 = row['nine']
+			self.x_10 = row['ten']
+			self.x_11 = row['eleven']
+			self.x_12 = row['twelve']
+			self.x_13 = row['thirteen']
+			self.x_14 = row['fourteen']
+			self.x_15 = row['fifteen']
+			self.x_16 = row['sixteen']
+			self.x_17 = row['seventeen']
+			self.x_18 = row['eighteen']
+			self.x_19 = row['nineteen']
+			self.x_20 = row['twenty']
+			self.x_21 = row['twentyone']
+			self.x_22 = row['twentytwo']
+			self.x_23 = row['twentythree']
+			self.x_24 = row['twentyfour']
+			self.x_25 = row['twentyfive']
+			self.x_26 = row['twentysix']
+			self.x_27 = row['twentyseven']
+			self.x_28 = row['twentyeight']
+			self.x_29 = row['twentynine']
+			self.x_30 = row['thirty']			
+			self.x_31 = row['thirtyone']
+			self.x_32 = row['thirtytwo']
+			self.x_33 = row['thirtythree']
+			self.x_34 = row['thirtyfour']
+			self.x_35 = row['thirtyfive']
+			self.x_36 = row['thirtysix']
+			self.x_37 = row['thirtyseven']
+			self.x_38 = row['thirtyeight']
+			self.x_39 = row['thirtynine']
+			self.x_40 = row['fourty']
+			self.x_41 = row['fourtyone']
+			self.x_42 = row['fourtytwo']
 
 		#======================================================================== Statistics ======================================================================== 
 		query="""
@@ -292,6 +837,445 @@ class results_analysis(models.Model):
 			self.b_three_one = row['three_one']
 			self.b_four = row['four']
 			self.b_five = row['five']
+
+		query="""
+				SELECT
+					yr.date::DATE,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 1 OR lr.b = 1 OR lr.c = 1 OR lr.d = 1 OR lr.e = 1 OR lr.f = 1) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as one,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 2 OR lr.b = 2 OR lr.c = 2 OR lr.d = 2 OR lr.e = 2 OR lr.f = 2) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as two,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 3 OR lr.b = 3 OR lr.c = 3 OR lr.d = 3 OR lr.e = 3 OR lr.f = 3) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as three,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 4 OR lr.b = 4 OR lr.c = 4 OR lr.d = 4 OR lr.e = 4 OR lr.f = 4) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as four,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 5 OR lr.b = 5 OR lr.c = 5 OR lr.d = 5 OR lr.e = 5 OR lr.f = 5) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as five,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 6 OR lr.b = 6 OR lr.c = 6 OR lr.d = 6 OR lr.e = 6 OR lr.f = 6) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as six,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 7 OR lr.b = 7 OR lr.c = 7 OR lr.d = 7 OR lr.e = 7 OR lr.f = 7) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as seven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 8 OR lr.b = 8 OR lr.c = 8 OR lr.d = 8 OR lr.e = 8 OR lr.f = 8) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as eight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 9 OR lr.b = 9 OR lr.c = 9 OR lr.d = 9 OR lr.e = 9 OR lr.f = 9) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as nine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 10 OR lr.b = 10 OR lr.c = 10 OR lr.d = 10 OR lr.e = 10 OR lr.f = 10) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as ten,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 11 OR lr.b = 11 OR lr.c = 11 OR lr.d = 11 OR lr.e = 11 OR lr.f = 11) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as eleven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 12 OR lr.b = 12 OR lr.c = 12 OR lr.d = 12 OR lr.e = 12 OR lr.f = 12) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twelve,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 13 OR lr.b = 13 OR lr.c = 13 OR lr.d = 13 OR lr.e = 13 OR lr.f = 13) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 14 OR lr.b = 14 OR lr.c = 14 OR lr.d = 14 OR lr.e = 14 OR lr.f = 14) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as fourteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 15 OR lr.b = 15 OR lr.c = 15 OR lr.d = 15 OR lr.e = 15 OR lr.f = 15) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as fifteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 16 OR lr.b = 16 OR lr.c = 16 OR lr.d = 16 OR lr.e = 16 OR lr.f = 16) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as sixteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 17 OR lr.b = 17 OR lr.c = 17 OR lr.d = 17 OR lr.e = 17 OR lr.f = 17) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as seventeen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 18 OR lr.b = 18 OR lr.c = 18 OR lr.d = 18 OR lr.e = 18 OR lr.f = 18) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as eighteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 19 OR lr.b = 19 OR lr.c = 19 OR lr.d = 19 OR lr.e = 19 OR lr.f = 19) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as nineteen,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 20 OR lr.b = 20 OR lr.c = 20 OR lr.d = 20 OR lr.e = 20 OR lr.f = 20) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twenty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 21 OR lr.b = 21 OR lr.c = 21 OR lr.d = 21 OR lr.e = 21 OR lr.f = 21) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentyone,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 22 OR lr.b = 22 OR lr.c = 22 OR lr.d = 22 OR lr.e = 22 OR lr.f = 22) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentytwo,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 23 OR lr.b = 23 OR lr.c = 23 OR lr.d = 23 OR lr.e = 23 OR lr.f = 23) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentythree,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 24 OR lr.b = 24 OR lr.c = 24 OR lr.d = 24 OR lr.e = 24 OR lr.f = 24) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentyfour,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 25 OR lr.b = 25 OR lr.c = 25 OR lr.d = 25 OR lr.e = 25 OR lr.f = 25) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentyfive,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 26 OR lr.b = 26 OR lr.c = 26 OR lr.d = 26 OR lr.e = 26 OR lr.f = 26) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentysix,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 27 OR lr.b = 27 OR lr.c = 27 OR lr.d = 27 OR lr.e = 27 OR lr.f = 27) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentyseven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 28 OR lr.b = 28 OR lr.c = 28 OR lr.d = 28 OR lr.e = 28 OR lr.f = 28) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentyeight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 29 OR lr.b = 29 OR lr.c = 29 OR lr.d = 29 OR lr.e = 29 OR lr.f = 29) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as twentynine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 30 OR lr.b = 30 OR lr.c = 30 OR lr.d = 30 OR lr.e = 30 OR lr.f = 30) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 31 OR lr.b = 31 OR lr.c = 31 OR lr.d = 31 OR lr.e = 31 OR lr.f = 31) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtyone,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 32 OR lr.b = 32 OR lr.c = 32 OR lr.d = 32 OR lr.e = 32 OR lr.f = 32) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtytwo,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 33 OR lr.b = 33 OR lr.c = 33 OR lr.d = 33 OR lr.e = 33 OR lr.f = 33) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtythree,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 34 OR lr.b = 34 OR lr.c = 34 OR lr.d = 34 OR lr.e = 34 OR lr.f = 34) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtyfour,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 35 OR lr.b = 35 OR lr.c = 35 OR lr.d = 35 OR lr.e = 35 OR lr.f = 35) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtyfive,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 36 OR lr.b = 36 OR lr.c = 36 OR lr.d = 36 OR lr.e = 36 OR lr.f = 36) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtysix,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 37 OR lr.b = 37 OR lr.c = 37 OR lr.d = 37 OR lr.e = 37 OR lr.f = 37) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtyseven,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 38 OR lr.b = 38 OR lr.c = 38 OR lr.d = 38 OR lr.e = 38 OR lr.f = 38) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtyeight,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 39 OR lr.b = 39 OR lr.c = 39 OR lr.d = 39 OR lr.e = 39 OR lr.f = 39) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as thirtynine,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 40 OR lr.b = 40 OR lr.c = 40 OR lr.d = 40 OR lr.e = 40 OR lr.f = 40) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as fourty,
+					round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 41 OR lr.b = 41 OR lr.c = 41 OR lr.d = 41 OR lr.e = 41 OR lr.f = 41) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as fourtyone,
+						round((
+						(SELECT
+							count(*)
+						FROM
+							lotto_records lr 
+						WHERE (lr.a = 41 OR lr.b = 41 OR lr.c = 41 OR lr.d = 41 OR lr.e = 41 OR lr.f = 41) AND lr.year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+						/
+						(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) )::DECIMAL
+					), 2) *100 as fourtytwo,				
+
+
+					(SELECT count(*) FROM lotto_records WHERE year::INT = EXTRACT( year from yr.date::DATE) ) as all
+
+				FROM
+					(SELECT '%s'::DATE as date ) as yr
+				ORDER BY yr.date::DATE ASC
+		"""%self.date
+
+		print query
+		self._cr.execute(query)
+		result = self._cr.dictfetchall()
+
+		for row in result:
+			print row
+			self.b_1 = row['one']
+			self.b_2 = row['two']
+			self.b_3 = row['three']
+			self.b_4 = row['four']
+			self.b_5 = row['five']
+			self.b_6 = row['six']
+			self.b_7 = row['seven']
+			self.b_8 = row['eight']
+			self.b_9 = row['nine']
+			self.b_10 = row['ten']
+			self.b_11 = row['eleven']
+			self.b_12 = row['twelve']
+			self.b_13 = row['thirteen']
+			self.b_14 = row['fourteen']
+			self.b_15 = row['fifteen']
+			self.b_16 = row['sixteen']
+			self.b_17 = row['seventeen']
+			self.b_18 = row['eighteen']
+			self.b_19 = row['nineteen']
+			self.b_20 = row['twenty']
+			self.b_21 = row['twentyone']
+			self.b_22 = row['twentytwo']
+			self.b_23 = row['twentythree']
+			self.b_24 = row['twentyfour']
+			self.b_25 = row['twentyfive']
+			self.b_26 = row['twentysix']
+			self.b_27 = row['twentyseven']
+			self.b_28 = row['twentyeight']
+			self.b_29 = row['twentynine']
+			self.b_30 = row['thirty']			
+			self.b_31 = row['thirtyone']
+			self.b_32 = row['thirtytwo']
+			self.b_33 = row['thirtythree']
+			self.b_34 = row['thirtyfour']
+			self.b_35 = row['thirtyfive']
+			self.b_36 = row['thirtysix']
+			self.b_37 = row['thirtyseven']
+			self.b_38 = row['thirtyeight']
+			self.b_39 = row['thirtynine']
+			self.b_40 = row['fourty']
+			self.b_41 = row['fourtyone']
+			self.b_42 = row['fourtytwo']
 
 	@api.multi
 	def generate_analysis(self):

@@ -39,8 +39,143 @@
 					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
 
 					<group col="4">
-						
-		
+						<group name="group_consecutive" string="Analysis by Date">
+							<field name="x_1" readonly="True"/>
+							<field name="x_2" readonly="True"/>
+							<field name="x_3" readonly="True"/>
+							<field name="x_4" readonly="True"/>
+							<field name="x_5" readonly="True"/>
+							<field name="x_6" readonly="True"/>
+							<field name="x_7" readonly="True"/>
+							<field name="x_8" readonly="True"/>
+							<field name="x_9" readonly="True"/>
+							<field name="x_10" readonly="True"/>
+							<field name="x_11" readonly="True"/>
+							<field name="x_12" readonly="True"/>
+							<field name="x_13" readonly="True"/>
+							<field name="x_14" readonly="True"/>
+							<field name="x_15" readonly="True"/>
+							<field name="x_16" readonly="True"/>
+							<field name="x_17" readonly="True"/>
+							<field name="x_18" readonly="True"/>
+							<field name="x_19" readonly="True"/>
+							<field name="x_20" readonly="True"/>
+							<field name="x_21" readonly="True"/>
+							<field name="x_22" readonly="True"/>
+							<field name="x_23" readonly="True"/>
+							<field name="x_24" readonly="True"/>
+							<field name="x_25" readonly="True"/>
+							<field name="x_26" readonly="True"/>
+							<field name="x_27" readonly="True"/>
+							<field name="x_28" readonly="True"/>
+							<field name="x_29" readonly="True"/>
+							<field name="x_30" readonly="True"/>
+							<field name="x_31" readonly="True"/>
+							<field name="x_32" readonly="True"/>
+							<field name="x_33" readonly="True"/>
+							<field name="x_34" readonly="True"/>
+							<field name="x_35" readonly="True"/>
+							<field name="x_36" readonly="True"/>
+							<field name="x_37" readonly="True"/>
+							<field name="x_38" readonly="True"/>
+							<field name="x_39" readonly="True"/>
+							<field name="x_40" readonly="True"/>
+							<field name="x_41" readonly="True"/>
+							<field name="x_42" readonly="True"/>																				
+						</group>
+
+						<group name="group_consecutive_prediction" string="Prediction">
+							<field name="a_1" readonly="True"/>
+							<field name="a_2" readonly="True"/>
+							<field name="a_3" readonly="True"/>
+							<field name="a_4" readonly="True"/>
+							<field name="a_5" readonly="True"/>
+							<field name="a_6" readonly="True"/>
+							<field name="a_7" readonly="True"/>
+							<field name="a_8" readonly="True"/>
+							<field name="a_9" readonly="True"/>
+							<field name="a_10" readonly="True"/>
+							<field name="a_11" readonly="True"/>
+							<field name="a_12" readonly="True"/>
+							<field name="a_13" readonly="True"/>
+							<field name="a_14" readonly="True"/>
+							<field name="a_15" readonly="True"/>
+							<field name="a_16" readonly="True"/>
+							<field name="a_17" readonly="True"/>
+							<field name="a_18" readonly="True"/>
+							<field name="a_19" readonly="True"/>
+							<field name="a_20" readonly="True"/>
+							<field name="a_21" readonly="True"/>
+							<field name="a_22" readonly="True"/>
+							<field name="a_23" readonly="True"/>
+							<field name="a_24" readonly="True"/>
+							<field name="a_25" readonly="True"/>
+							<field name="a_26" readonly="True"/>
+							<field name="a_27" readonly="True"/>
+							<field name="a_28" readonly="True"/>
+							<field name="a_29" readonly="True"/>
+							<field name="a_30" readonly="True"/>
+							<field name="a_31" readonly="True"/>
+							<field name="a_32" readonly="True"/>
+							<field name="a_33" readonly="True"/>
+							<field name="a_34" readonly="True"/>
+							<field name="a_35" readonly="True"/>
+							<field name="a_36" readonly="True"/>
+							<field name="a_37" readonly="True"/>
+							<field name="a_38" readonly="True"/>
+							<field name="a_39" readonly="True"/>
+							<field name="a_40" readonly="True"/>	
+							<field name="a_41" readonly="True"/>
+							<field name="a_42" readonly="True"/>
+						</group>
+
+						<group name="group_consecutive_prediction" string="Statistics">
+							<field name="b_1" readonly="True"/>
+							<field name="b_2" readonly="True"/>
+							<field name="b_3" readonly="True"/>
+							<field name="b_4" readonly="True"/>
+							<field name="b_5" readonly="True"/>
+							<field name="b_6" readonly="True"/>
+							<field name="b_7" readonly="True"/>
+							<field name="b_8" readonly="True"/>
+							<field name="b_9" readonly="True"/>
+							<field name="b_10" readonly="True"/>
+							<field name="b_11" readonly="True"/>
+							<field name="b_12" readonly="True"/>
+							<field name="b_13" readonly="True"/>
+							<field name="b_14" readonly="True"/>
+							<field name="b_15" readonly="True"/>
+							<field name="b_16" readonly="True"/>
+							<field name="b_17" readonly="True"/>
+							<field name="b_18" readonly="True"/>
+							<field name="b_19" readonly="True"/>
+							<field name="b_20" readonly="True"/>
+							<field name="b_21" readonly="True"/>
+							<field name="b_22" readonly="True"/>
+							<field name="b_23" readonly="True"/>
+							<field name="b_24" readonly="True"/>
+							<field name="b_25" readonly="True"/>
+							<field name="b_26" readonly="True"/>
+							<field name="b_27" readonly="True"/>
+							<field name="b_28" readonly="True"/>
+							<field name="b_29" readonly="True"/>
+							<field name="b_30" readonly="True"/>
+							<field name="b_31" readonly="True"/>
+							<field name="b_32" readonly="True"/>
+							<field name="b_33" readonly="True"/>
+							<field name="b_34" readonly="True"/>
+							<field name="b_35" readonly="True"/>
+							<field name="b_36" readonly="True"/>
+							<field name="b_37" readonly="True"/>
+							<field name="b_38" readonly="True"/>
+							<field name="b_39" readonly="True"/>
+							<field name="b_40" readonly="True"/>
+							<field name="b_41" readonly="True"/>
+							<field name="b_42" readonly="True"/>
+						</group>
+					</group>
+
+					<group col="4">
 						<group name="group_consecutive" string="Analysis by Date">
 							<field name="zero" readonly="True"/>
 							<field name="one" readonly="True"/>

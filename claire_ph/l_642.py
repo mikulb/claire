@@ -5,6 +5,7 @@ import time
 import re
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from datetime import datetime
+import random
 
 class results_analysis(models.Model):
 	_name = 'results.analysis'
@@ -1491,6 +1492,7 @@ class lotto_records(models.Model):
 	f = fields.Integer(string='6th Digit')
 
 	name = fields.Char(string='Result')
+	sorted_name = fields.Char(string='Sorted Result')
 
 	odd = fields.Integer(default=0)
 	even = fields.Integer(default=0)
@@ -1516,10 +1518,44 @@ class lotto_records(models.Model):
 
 
 	@api.multi
+	def quicksort(self,x):
+		if len(x) == 1 or len(x) == 0:
+			return x
+		else:
+			pivot = x[0]
+			i = 0
+			for j in range(len(x)-1):
+				if x[j+1] < pivot:
+					x[j+1],x[i+1] = x[i+1], x[j+1]
+					i += 1
+			x[0],x[i] = x[i],x[0]
+			first_part = self.quicksort(x[:i])
+			second_part = self.quicksort(x[i+1:])
+			first_part.append(x[i])
+			return first_part + second_part
+
+	@api.multi
+	def sort_name(self):
+		#print 'sort_name'
+
+		alist = [self.a,self.b,self.c,self.d,self.e,self.f]
+		alist = self.quicksort(alist)
+		print(alist)
+		#alist = self.quicksort(alist)
+		#print(alist)
+		#print alist[0]
+		self.sorted_name = str(alist[0]) + ' - ' + str(alist[1]) + ' - ' + str(alist[2]) + ' - ' + str(alist[3]) + ' - ' + str(alist[4]) + ' - ' + str(alist[5])
+
+
+	@api.multi
 	def get_consecutives(self):
 		print 'Get Consecutives...'
 
+		
+
 		for rec in self:
+			#apply quicksort in name
+			rec.sort_name()
 
 			'''
 			print self.a

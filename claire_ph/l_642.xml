@@ -15,7 +15,6 @@
 			<field name="key">action</field>
 			<field name="model">lotto.records</field>
 			<field name="key2">client_action_multi</field>
-
 		</record>
 
 		<!-- Lotto Records Analysis - Form view -->
@@ -352,6 +351,9 @@
 					<group>
 						<button name="get_consecutives" string="Get Consecutives" type="object" class="oe_highlight" />
 					</group>
+					<group>
+						<button name="sort_name" string="Sort Name" type="object" class="oe_highlight" />
+					</group>
 
 				</sheet>
 				</form>
@@ -394,6 +396,7 @@
 			<field name="arch" type="xml">
 				<tree string="Lotto Results">
 						<field name="name" />
+						<field name="sorted_name" />
 						<field name="date_drawn" />
 
 				</tree>

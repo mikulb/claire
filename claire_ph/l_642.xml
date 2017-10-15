@@ -34,11 +34,16 @@
 						<field name="date"/>
 						
 					</group>
-
+					<button name="get_frequent_combination" string="Test" type="object" class="oe_highlight" />
 					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
 
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Numbers</h2></center></font>
+					
 					<group col="4">
-						<group name="group_consecutive" string="Analysis by Date">
+						<group name="group_number" string="Analysis by Date">
+							
 							<field name="x_1" readonly="True"/>
 							<field name="x_2" readonly="True"/>
 							<field name="x_3" readonly="True"/>
@@ -80,10 +85,11 @@
 							<field name="x_39" readonly="True"/>
 							<field name="x_40" readonly="True"/>
 							<field name="x_41" readonly="True"/>
-							<field name="x_42" readonly="True"/>																				
+							<field name="x_42" readonly="True"/>	
+																									
 						</group>
 
-						<group name="group_consecutive_prediction" string="Prediction">
+						<group name="group_number_prediction" string="Prediction">
 							<field name="a_1" readonly="True"/>
 							<field name="a_2" readonly="True"/>
 							<field name="a_3" readonly="True"/>
@@ -128,7 +134,7 @@
 							<field name="a_42" readonly="True"/>
 						</group>
 
-						<group name="group_consecutive_prediction" string="Statistics">
+						<group name="group_number_statistics" string="Statistics">
 							<field name="b_1" readonly="True"/>
 							<field name="b_2" readonly="True"/>
 							<field name="b_3" readonly="True"/>
@@ -174,6 +180,10 @@
 						</group>
 					</group>
 
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Consecutives</h2></center></font>
 					<group col="4">
 						<group name="group_consecutive" string="Analysis by Date">
 							<field name="zero" readonly="True"/>
@@ -205,7 +215,7 @@
 							<field nolabel="0" name="a_five" readonly="True"/>
 						</group>
 
-						<group name="group_consecutive_prediction" string="Statistics">
+						<group name="group_consecutive_statistics" string="Statistics">
 							<field nolabel="0" name="b_zero" readonly="True"/>
 							<field nolabel="0" name="b_one" readonly="True"/>
 							<field nolabel="0" name="b_one_x2" readonly="True"/>
@@ -220,6 +230,80 @@
 							<field nolabel="0" name="b_five" readonly="True"/>
 						</group>
 					</group>
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>High - Low</h2></center></font>
+					<group col="4">
+						<group name="group_high_low" string="Analysis by Date">
+							High - Low
+							<field name="high_low_06" readonly="True"/>
+							<field name="high_low_15" readonly="True"/>
+							<field name="high_low_24" readonly="True"/>
+							<field name="high_low_33" readonly="True"/>
+							<field name="high_low_42" readonly="True"/>
+							<field name="high_low_51" readonly="True"/>
+							<field name="high_low_60" readonly="True"/>
+						</group>
+
+						<group name="group_high_low_prediction" string="Prediction">
+							
+							<field nolabel="0" name="a_high_low_06" readonly="True"/>
+							<field nolabel="0" name="a_high_low_15" readonly="True"/>
+							<field nolabel="0" name="a_high_low_24" readonly="True"/>
+							<field nolabel="0" name="a_high_low_33" readonly="True"/>
+							<field nolabel="0" name="a_high_low_42" readonly="True"/>
+							<field nolabel="0" name="a_high_low_51" readonly="True"/>
+							<field nolabel="0" name="a_high_low_60" readonly="True"/>
+						</group>
+
+						<group name="group_high_low_statistics" string="Statistics">
+							
+							<field nolabel="0" name="b_high_low_06" readonly="True"/>
+							<field nolabel="0" name="b_high_low_15" readonly="True"/>
+							<field nolabel="0" name="b_high_low_24" readonly="True"/>
+							<field nolabel="0" name="b_high_low_33" readonly="True"/>
+							<field nolabel="0" name="b_high_low_24" readonly="True"/>
+							<field nolabel="0" name="b_high_low_15" readonly="True"/>
+							<field nolabel="0" name="b_high_low_60" readonly="True"/>
+						</group>
+					</group>
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Odd - Even</h2></center></font>
+					<group col="4">
+						<group name="group_odd_even" string="Analysis by Date">
+							<field name="odd_even_06" readonly="True"/>
+							<field name="odd_even_15" readonly="True"/>
+							<field name="odd_even_24" readonly="True"/>
+							<field name="odd_even_33" readonly="True"/>
+							<field name="odd_even_42" readonly="True"/>
+							<field name="odd_even_51" readonly="True"/>
+							<field name="odd_even_60" readonly="True"/>
+						</group>
+
+						<group name="group_odd_even_prediction" string="Prediction">
+							<field nolabel="0" name="a_odd_even_06" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_15" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_24" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_33" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_42" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_51" readonly="True"/>
+							<field nolabel="0" name="a_odd_even_60" readonly="True"/>
+						</group>
+
+						<group name="group_odd_even_statistics" string="Statistics">
+							<field nolabel="0" name="b_odd_even_06" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_15" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_24" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_33" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_42" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_51" readonly="True"/>
+							<field nolabel="0" name="b_odd_even_60" readonly="True"/>
+						</group>
+					</group>
+
 
 					<button name="generate_analysis" string="Generate" type="object" class="oe_highlight" />
 
@@ -240,6 +324,93 @@
 							<field name="five" readonly="True"/>
 						</tree>
 					</field>
+
+
+				</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- Lotto Records Analysis Beta - Form view -->
+		<record id="view_records_analysis_beta_form" model="ir.ui.view">
+			<field name="name">view.records.analysis.beta.form</field>
+			<field name="model">results.analysis.beta</field>
+			<field name="arch" type="xml">
+				<form string="Lotto Records Analysis Beta">
+				<sheet>
+
+					<h1>Lotto 6/42</h1>
+					<br/>
+					<br/>
+
+					<group name="group_date">
+						<field name="name"/>
+						<field name="date"/>
+						
+					</group>
+
+					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Numbers</h2></center></font>
+					
+
+					<field name="number_line">
+						<tree editable="rab_id">
+							<field name="sort"/>
+							<field name="name" readonly="True"/>
+							<field name="analysis_by_date" readonly="True"/>
+							<field name="prediction" readonly="True"/>
+							<field name="statistics_year" readonly="True"/>
+							<field name="statistics_all" readonly="True"/>
+						</tree>
+					</field>
+
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Consecutives</h2></center></font>
+					<field name="consecutive_line">
+						<tree editable="rab_id">
+							<field name="sort"/>
+							<field name="name" readonly="True"/>
+							<field name="analysis_by_date" readonly="True"/>
+							<field name="prediction" readonly="True"/>
+							<field name="statistics_year" readonly="True"/>
+							<field name="statistics_all" readonly="True"/>
+						</tree>
+					</field>
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>High - Low</h2></center></font>
+					<field name="highlow_line">
+						<tree editable="rab_id">
+							<field name="sort"/>
+							<field name="name" readonly="True"/>
+							<field name="analysis_by_date" readonly="True"/>
+							<field name="prediction" readonly="True"/>
+							<field name="statistics_year" readonly="True"/>
+							<field name="statistics_all" readonly="True"/>
+						</tree>
+					</field>
+
+
+					<br/><br/><br/>
+					<font color="#F97525"><center><h2>Odd - Even</h2></center></font>
+					<field name="oddeven_line">
+						<tree editable="rab_id">
+							<field name="sort"/>
+							<field name="name" readonly="True"/>
+							<field name="analysis_by_date" readonly="True"/>
+							<field name="prediction" readonly="True"/>
+							<field name="statistics_year" readonly="True"/>
+							<field name="statistics_all" readonly="True"/>
+						</tree>
+					</field>
+
+
 
 
 				</sheet>
@@ -420,6 +591,19 @@
 		<record id="view_records_analysis_tree" model="ir.ui.view">
 			<field name="name">view.records.analysis.tree</field>
 			<field name="model">results.analysis</field>
+			<field name="arch" type="xml">
+				<tree string="Lotto Records Analysis">
+						<field name="name" />
+						<field name="date" />
+
+				</tree>
+			</field>
+		</record>
+
+		<!-- Lotto Records Analysis - Tree view -->
+		<record id="view_records_analysis_beta_tree" model="ir.ui.view">
+			<field name="name">view.records.analysis.beta.tree</field>
+			<field name="model">results.analysis.beta</field>
 			<field name="arch" type="xml">
 				<tree string="Lotto Records Analysis">
 						<field name="name" />
@@ -643,7 +827,35 @@
 		</record>
 		<!-- ====================================================================== -->
 
+		<!-- ====================================================================== -->
+		<!-- Encode: Records Analysis Beta action -->
+		<record id="action_records_analysis_beta" model="ir.actions.act_window">
+			<field name="name">Lotto Records Analysis Beta</field>
+			<field name="res_model">results.analysis.beta</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="help"></field>
+		</record>
+
+		<!-- Encode: Records Analysis tree-->
+		<record model="ir.actions.act_window.view" id="action_records_analysis_beta_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_records_analysis_beta_tree"/>
+			<field name="act_window_id" ref="action_records_analysis_beta"/>
+		</record>
+
+		<!-- Encode: Records Analysis form --> 
+		<record model="ir.actions.act_window.view" id="action_records_analysis_beta_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_records_analysis_beta_form"/>
+			<field name="act_window_id" ref="action_records_analysis_beta"/>
+		</record>
 		<!-- ====================================================================== -->		
+
 		<!-- ===================== Patern Recognition - ACTION ========================== -->
 		<record id="patern_recognition_methods_action" model="ir.actions.act_window">
 			<field name="name">Patern Recognition</field>
@@ -675,6 +887,7 @@
 
 		<menuitem id="records_analysis_menu" name="Record Analysis" parent="summary_menu" action="action_records_analysis" sequence="2"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
 
+		<menuitem id="records_analysis_beta_menu" name="Record Analysis (B)" parent="summary_menu" action="action_records_analysis_beta" sequence="3"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
 
 		<!-- Configuration -->
 		<menuitem id="configuration_menu" name="Configurations" parent="main_lotto_menu" sequence="3" groups="claire_ph.group_admin"/>

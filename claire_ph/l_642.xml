@@ -1,903 +1,109 @@
 <openerp>
 	<data>
 
-		<!-- More Button : Get Consecutive -->
-		<record id="get_consecutives_btn" model="ir.actions.server">
-			<field name="name">Get Consecutive</field>
-			<field name="model_id" ref="model_lotto_records"/>
-			<field name="state">code</field>
-			<field name="code">action=self.get_consecutives(cr,uid,context.get('active_ids',[]),context=context)</field>
-		</record>
+		<!-- Lotto Results - Main Menu -->
+			<menuitem id="results_menu" name="Lotto Results" parent="main_lotto_menu" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
+		<!-- Lotto Results - Main Menu -->
 
-		<record id="action_get_consecutives_btn" model="ir.values">
-			<field name="name">Get Consecutive</field>
-			<field name="value" eval="'ir.actions.server,'+str(ref('get_consecutives_btn'))" />
-			<field name="key">action</field>
-			<field name="model">lotto.records</field>
-			<field name="key2">client_action_multi</field>
-		</record>
 
-		<!-- Lotto Records Analysis - Form view -->
-		<record id="view_records_analysis_form" model="ir.ui.view">
-			<field name="name">view.records.analysis.form</field>
-			<field name="model">results.analysis</field>
-			<field name="arch" type="xml">
-				<form string="Lotto Records Analysis">
-				<sheet>
 
-					<h1>Lotto 6/42</h1>
-					<br/>
-					<br/>
 
-					<group name="group_date">
-						<field name="name"/>
-						<field name="date"/>
-						
-					</group>
-					<button name="get_frequent_combination" string="Test" type="object" class="oe_highlight" />
-					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
+		<!-- Lotto Results - 6/42 Menu -->
 
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Numbers</h2></center></font>
-					
-					<group col="4">
-						<group name="group_number" string="Analysis by Date">
-							
-							<field name="x_1" readonly="True"/>
-							<field name="x_2" readonly="True"/>
-							<field name="x_3" readonly="True"/>
-							<field name="x_4" readonly="True"/>
-							<field name="x_5" readonly="True"/>
-							<field name="x_6" readonly="True"/>
-							<field name="x_7" readonly="True"/>
-							<field name="x_8" readonly="True"/>
-							<field name="x_9" readonly="True"/>
-							<field name="x_10" readonly="True"/>
-							<field name="x_11" readonly="True"/>
-							<field name="x_12" readonly="True"/>
-							<field name="x_13" readonly="True"/>
-							<field name="x_14" readonly="True"/>
-							<field name="x_15" readonly="True"/>
-							<field name="x_16" readonly="True"/>
-							<field name="x_17" readonly="True"/>
-							<field name="x_18" readonly="True"/>
-							<field name="x_19" readonly="True"/>
-							<field name="x_20" readonly="True"/>
-							<field name="x_21" readonly="True"/>
-							<field name="x_22" readonly="True"/>
-							<field name="x_23" readonly="True"/>
-							<field name="x_24" readonly="True"/>
-							<field name="x_25" readonly="True"/>
-							<field name="x_26" readonly="True"/>
-							<field name="x_27" readonly="True"/>
-							<field name="x_28" readonly="True"/>
-							<field name="x_29" readonly="True"/>
-							<field name="x_30" readonly="True"/>
-							<field name="x_31" readonly="True"/>
-							<field name="x_32" readonly="True"/>
-							<field name="x_33" readonly="True"/>
-							<field name="x_34" readonly="True"/>
-							<field name="x_35" readonly="True"/>
-							<field name="x_36" readonly="True"/>
-							<field name="x_37" readonly="True"/>
-							<field name="x_38" readonly="True"/>
-							<field name="x_39" readonly="True"/>
-							<field name="x_40" readonly="True"/>
-							<field name="x_41" readonly="True"/>
-							<field name="x_42" readonly="True"/>	
-																									
-						</group>
-
-						<group name="group_number_prediction" string="Prediction">
-							<field name="a_1" readonly="True"/>
-							<field name="a_2" readonly="True"/>
-							<field name="a_3" readonly="True"/>
-							<field name="a_4" readonly="True"/>
-							<field name="a_5" readonly="True"/>
-							<field name="a_6" readonly="True"/>
-							<field name="a_7" readonly="True"/>
-							<field name="a_8" readonly="True"/>
-							<field name="a_9" readonly="True"/>
-							<field name="a_10" readonly="True"/>
-							<field name="a_11" readonly="True"/>
-							<field name="a_12" readonly="True"/>
-							<field name="a_13" readonly="True"/>
-							<field name="a_14" readonly="True"/>
-							<field name="a_15" readonly="True"/>
-							<field name="a_16" readonly="True"/>
-							<field name="a_17" readonly="True"/>
-							<field name="a_18" readonly="True"/>
-							<field name="a_19" readonly="True"/>
-							<field name="a_20" readonly="True"/>
-							<field name="a_21" readonly="True"/>
-							<field name="a_22" readonly="True"/>
-							<field name="a_23" readonly="True"/>
-							<field name="a_24" readonly="True"/>
-							<field name="a_25" readonly="True"/>
-							<field name="a_26" readonly="True"/>
-							<field name="a_27" readonly="True"/>
-							<field name="a_28" readonly="True"/>
-							<field name="a_29" readonly="True"/>
-							<field name="a_30" readonly="True"/>
-							<field name="a_31" readonly="True"/>
-							<field name="a_32" readonly="True"/>
-							<field name="a_33" readonly="True"/>
-							<field name="a_34" readonly="True"/>
-							<field name="a_35" readonly="True"/>
-							<field name="a_36" readonly="True"/>
-							<field name="a_37" readonly="True"/>
-							<field name="a_38" readonly="True"/>
-							<field name="a_39" readonly="True"/>
-							<field name="a_40" readonly="True"/>	
-							<field name="a_41" readonly="True"/>
-							<field name="a_42" readonly="True"/>
-						</group>
-
-						<group name="group_number_statistics" string="Statistics">
-							<field name="b_1" readonly="True"/>
-							<field name="b_2" readonly="True"/>
-							<field name="b_3" readonly="True"/>
-							<field name="b_4" readonly="True"/>
-							<field name="b_5" readonly="True"/>
-							<field name="b_6" readonly="True"/>
-							<field name="b_7" readonly="True"/>
-							<field name="b_8" readonly="True"/>
-							<field name="b_9" readonly="True"/>
-							<field name="b_10" readonly="True"/>
-							<field name="b_11" readonly="True"/>
-							<field name="b_12" readonly="True"/>
-							<field name="b_13" readonly="True"/>
-							<field name="b_14" readonly="True"/>
-							<field name="b_15" readonly="True"/>
-							<field name="b_16" readonly="True"/>
-							<field name="b_17" readonly="True"/>
-							<field name="b_18" readonly="True"/>
-							<field name="b_19" readonly="True"/>
-							<field name="b_20" readonly="True"/>
-							<field name="b_21" readonly="True"/>
-							<field name="b_22" readonly="True"/>
-							<field name="b_23" readonly="True"/>
-							<field name="b_24" readonly="True"/>
-							<field name="b_25" readonly="True"/>
-							<field name="b_26" readonly="True"/>
-							<field name="b_27" readonly="True"/>
-							<field name="b_28" readonly="True"/>
-							<field name="b_29" readonly="True"/>
-							<field name="b_30" readonly="True"/>
-							<field name="b_31" readonly="True"/>
-							<field name="b_32" readonly="True"/>
-							<field name="b_33" readonly="True"/>
-							<field name="b_34" readonly="True"/>
-							<field name="b_35" readonly="True"/>
-							<field name="b_36" readonly="True"/>
-							<field name="b_37" readonly="True"/>
-							<field name="b_38" readonly="True"/>
-							<field name="b_39" readonly="True"/>
-							<field name="b_40" readonly="True"/>
-							<field name="b_41" readonly="True"/>
-							<field name="b_42" readonly="True"/>
-						</group>
-					</group>
-
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Consecutives</h2></center></font>
-					<group col="4">
-						<group name="group_consecutive" string="Analysis by Date">
-							<field name="zero" readonly="True"/>
-							<field name="one" readonly="True"/>
-							<field name="one_x2" readonly="True"/>
-							<field name="one_x3" readonly="True"/>
-							<field name="one_two" readonly="True"/>
-							<field name="one_three" readonly="True"/>
-							<field name="two" readonly="True"/>
-							<field name="two_x2" readonly="True"/>
-							<field name="three" readonly="True"/>
-							<field name="three_one" readonly="True"/>
-							<field name="four" readonly="True"/>
-							<field name="five" readonly="True"/>
-						</group>
-
-						<group name="group_consecutive_prediction" string="Prediction">
-							<field nolabel="0" name="a_zero" readonly="True"/>
-							<field nolabel="0" name="a_one" readonly="True"/>
-							<field nolabel="0" name="a_one_x2" readonly="True"/>
-							<field nolabel="0" name="a_one_x3" readonly="True"/>
-							<field nolabel="0" name="a_one_two" readonly="True"/>
-							<field nolabel="0" name="a_one_three" readonly="True"/>
-							<field nolabel="0" name="a_two" readonly="True"/>
-							<field nolabel="0" name="a_two_x2" readonly="True"/>
-							<field nolabel="0" name="a_three" readonly="True"/>
-							<field nolabel="0" name="a_three_one" readonly="True"/>
-							<field nolabel="0" name="a_four" readonly="True"/>
-							<field nolabel="0" name="a_five" readonly="True"/>
-						</group>
-
-						<group name="group_consecutive_statistics" string="Statistics">
-							<field nolabel="0" name="b_zero" readonly="True"/>
-							<field nolabel="0" name="b_one" readonly="True"/>
-							<field nolabel="0" name="b_one_x2" readonly="True"/>
-							<field nolabel="0" name="b_one_x3" readonly="True"/>
-							<field nolabel="0" name="b_one_two" readonly="True"/>
-							<field nolabel="0" name="b_one_three" readonly="True"/>
-							<field nolabel="0" name="b_two" readonly="True"/>
-							<field nolabel="0" name="b_two_x2" readonly="True"/>
-							<field nolabel="0" name="b_three" readonly="True"/>
-							<field nolabel="0" name="b_three_one" readonly="True"/>
-							<field nolabel="0" name="b_four" readonly="True"/>
-							<field nolabel="0" name="b_five" readonly="True"/>
-						</group>
-					</group>
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>High - Low</h2></center></font>
-					<group col="4">
-						<group name="group_high_low" string="Analysis by Date">
-							High - Low
-							<field name="high_low_06" readonly="True"/>
-							<field name="high_low_15" readonly="True"/>
-							<field name="high_low_24" readonly="True"/>
-							<field name="high_low_33" readonly="True"/>
-							<field name="high_low_42" readonly="True"/>
-							<field name="high_low_51" readonly="True"/>
-							<field name="high_low_60" readonly="True"/>
-						</group>
-
-						<group name="group_high_low_prediction" string="Prediction">
-							
-							<field nolabel="0" name="a_high_low_06" readonly="True"/>
-							<field nolabel="0" name="a_high_low_15" readonly="True"/>
-							<field nolabel="0" name="a_high_low_24" readonly="True"/>
-							<field nolabel="0" name="a_high_low_33" readonly="True"/>
-							<field nolabel="0" name="a_high_low_42" readonly="True"/>
-							<field nolabel="0" name="a_high_low_51" readonly="True"/>
-							<field nolabel="0" name="a_high_low_60" readonly="True"/>
-						</group>
-
-						<group name="group_high_low_statistics" string="Statistics">
-							
-							<field nolabel="0" name="b_high_low_06" readonly="True"/>
-							<field nolabel="0" name="b_high_low_15" readonly="True"/>
-							<field nolabel="0" name="b_high_low_24" readonly="True"/>
-							<field nolabel="0" name="b_high_low_33" readonly="True"/>
-							<field nolabel="0" name="b_high_low_24" readonly="True"/>
-							<field nolabel="0" name="b_high_low_15" readonly="True"/>
-							<field nolabel="0" name="b_high_low_60" readonly="True"/>
-						</group>
-					</group>
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Odd - Even</h2></center></font>
-					<group col="4">
-						<group name="group_odd_even" string="Analysis by Date">
-							<field name="odd_even_06" readonly="True"/>
-							<field name="odd_even_15" readonly="True"/>
-							<field name="odd_even_24" readonly="True"/>
-							<field name="odd_even_33" readonly="True"/>
-							<field name="odd_even_42" readonly="True"/>
-							<field name="odd_even_51" readonly="True"/>
-							<field name="odd_even_60" readonly="True"/>
-						</group>
-
-						<group name="group_odd_even_prediction" string="Prediction">
-							<field nolabel="0" name="a_odd_even_06" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_15" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_24" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_33" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_42" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_51" readonly="True"/>
-							<field nolabel="0" name="a_odd_even_60" readonly="True"/>
-						</group>
-
-						<group name="group_odd_even_statistics" string="Statistics">
-							<field nolabel="0" name="b_odd_even_06" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_15" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_24" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_33" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_42" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_51" readonly="True"/>
-							<field nolabel="0" name="b_odd_even_60" readonly="True"/>
-						</group>
-					</group>
-
-
-					<button name="generate_analysis" string="Generate" type="object" class="oe_highlight" />
-
-					<field name="ca_line">
-						<tree editable="ra_id">
-							<field name="name"/>
-							<field name="zero" readonly="True"/>
-							<field name="one" readonly="True"/>
-							<field name="one_x2" readonly="True"/>
-							<field name="one_x3" readonly="True"/>
-							<field name="one_two" readonly="True"/>
-							<field name="one_three" readonly="True"/>
-							<field name="two" readonly="True"/>
-							<field name="two_x2" readonly="True"/>
-							<field name="three" readonly="True"/>
-							<field name="three_one" readonly="True"/>
-							<field name="four" readonly="True"/>
-							<field name="five" readonly="True"/>
-						</tree>
-					</field>
-
-
-				</sheet>
-				</form>
-			</field>
-		</record>
-
-		<!-- Lotto Records Analysis Beta - Form view -->
-		<record id="view_records_analysis_beta_form" model="ir.ui.view">
-			<field name="name">view.records.analysis.beta.form</field>
-			<field name="model">results.analysis.beta</field>
-			<field name="arch" type="xml">
-				<form string="Lotto Records Analysis Beta">
-				<sheet>
-
-					<h1>Lotto 6/42</h1>
-					<br/>
-					<br/>
-
-					<group name="group_date">
-						<field name="name"/>
-						<field name="date"/>
-						
-					</group>
-
-					<button name="generate_dated_analysis" string="Generate" type="object" class="oe_highlight" />
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Numbers</h2></center></font>
-					
-
-					<field name="number_line">
-						<tree editable="rab_id">
-							<field name="sort"/>
-							<field name="name" readonly="True"/>
-							<field name="analysis_by_date" readonly="True"/>
-							<field name="prediction" readonly="True"/>
-							<field name="statistics_year" readonly="True"/>
-							<field name="statistics_all" readonly="True"/>
-						</tree>
-					</field>
-
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Consecutives</h2></center></font>
-					<field name="consecutive_line">
-						<tree editable="rab_id">
-							<field name="sort"/>
-							<field name="name" readonly="True"/>
-							<field name="analysis_by_date" readonly="True"/>
-							<field name="prediction" readonly="True"/>
-							<field name="statistics_year" readonly="True"/>
-							<field name="statistics_all" readonly="True"/>
-						</tree>
-					</field>
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>High - Low</h2></center></font>
-					<field name="highlow_line">
-						<tree editable="rab_id">
-							<field name="sort"/>
-							<field name="name" readonly="True"/>
-							<field name="analysis_by_date" readonly="True"/>
-							<field name="prediction" readonly="True"/>
-							<field name="statistics_year" readonly="True"/>
-							<field name="statistics_all" readonly="True"/>
-						</tree>
-					</field>
-
-
-					<br/><br/><br/>
-					<font color="#F97525"><center><h2>Odd - Even</h2></center></font>
-					<field name="oddeven_line">
-						<tree editable="rab_id">
-							<field name="sort"/>
-							<field name="name" readonly="True"/>
-							<field name="analysis_by_date" readonly="True"/>
-							<field name="prediction" readonly="True"/>
-							<field name="statistics_year" readonly="True"/>
-							<field name="statistics_all" readonly="True"/>
-						</tree>
-					</field>
-
-
-
-
-				</sheet>
-				</form>
-			</field>
-		</record>
-
-		<!-- Lotto results - Form view -->
-		<record id="view_lotto_results_records_form" model="ir.ui.view">
-			<field name="name">view.lotto.results.records.form</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<form string="Lotto Results">
-				<sheet>
-
-					<h1>Lotto 6/42</h1>
-					<br/>
-					<br/>
-					<group col="4">
-						<field name="name" style="width: 20" readonly="True" />
-						<field name="date_drawn" readonly="True"/>
-					</group>
-					<br/><br/>
-
-					<center><h3>Odd-Even Combination</h3></center>
-					<group>
-						<field name="odd" readonly="True" />
-						<field name="even" readonly="True" />
-					</group>
-					<br/><br/>
-
-					<center><h3>High-Low Combination</h3></center>
-					<group>
-						<field name="high" readonly="True" />
-						<field name="low" readonly="True" />
-					</group>
-					<br/><br/>
-
-					<center><h3>Sum of Numbers</h3></center>
-					<group>
-						<field name="res_sum" readonly="True" />
-					</group>
-					<br/><br/>
-
-					<center><h3>Consecutive Numbers</h3></center>
-					<group>
-						<field name="consecutive" readonly="True" />
-					</group>
-					<br/><br/>
-
-
-
-				</sheet>
-				</form>
-			</field>
-		</record>
-
-		<!-- Encode: Lotto results - Form view -->
-		<record id="view_encode_lotto_results_records_form" model="ir.ui.view">
-			<field name="name">view.encode.lotto.results.records.form</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<form string="Lotto Results">
-				<sheet>
-					<h1>Lotto 6/42</h1>
-					<br/>
-					<br/>
-					<group col="4">
-						<field name="x_a" readonly="False" required="True"/>
-						<field name="x_b" readonly="False" required="True"/>
-						<field name="x_c" readonly="False" required="True"/>
-						<field name="x_d" readonly="False" required="True"/>
-						<field name="x_e" readonly="False" required="True"/>
-						<field name="x_f" readonly="False" required="True"/>
-					</group>
-
-					<group col="4">
-						<field name="a" readonly="False" required="False" invisible="True"/>
-						<field name="b" readonly="False" required="False" invisible="True"/>
-						<field name="c" readonly="False" required="False" invisible="True"/>
-						<field name="d" readonly="False" required="False" invisible="True"/>
-						<field name="e" readonly="False" required="False" invisible="True"/>
-						<field name="f" readonly="False" required="False" invisible="True"/>
-					</group>
-
-					<group>
-						<field name="name" style="width: 20" readonly="False"  invisible="True"/>
-						<field name="date_drawn" readonly="False" required="True"/>
-						<field name="odd" readonly="False"  invisible="True"/>
-						<field name="even" readonly="False"  invisible="True"/>
-						<field name="high" readonly="False"  invisible="True"/>
-						<field name="low" readonly="False"  invisible="True"/>
-						<field name="res_sum" readonly="False"  invisible="True"/>
-
-					</group>
-
-					<group>
-						<field name="day" readonly="False"  invisible="True"/>
-						<field name="day_of_week" readonly="False" invisible="True"/>
-						<field name="month" readonly="False"  invisible="True"/>
-						<field name="year" readonly="False"  invisible="True"/>
-
-						<field name="rel_day" readonly="True"  invisible="False"/>
-						<field name="rel_day_of_week" readonly="True" invisible="False"/>
-						<field name="rel_month" readonly="True"  invisible="False"/>
-						<field name="rel_year" readonly="True"  invisible="False"/>
-					</group>
-
-					<group>
-						<button name="get_consecutives" string="Get Consecutives" type="object" class="oe_highlight" />
-					</group>
-					<group>
-						<button name="sort_name" string="Sort Name" type="object" class="oe_highlight" />
-					</group>
-
-				</sheet>
-				</form>
-			</field>
-		</record>
-
-		<!-- Summary: by date - Form view -->
-		<record id="view_dated_summary_results_records_form" model="ir.ui.view">
-			<field name="name">view.dated.summary.results.records.form</field>
-			<field name="model">lotto.records.summary</field>
-			<field name="arch" type="xml">
-				<form string="Summary Result">
-				<sheet>
-					<h1>Lotto 6/42</h1>
-					<br/>
-					<br/>
-
-					<field name="date_drawn" readonly="False" required="True"/>
-					
-					<group>
-						<field name="name" style="width: 20" readonly="False"  invisible="False"/>
-
-						<field name="odd" readonly="False"  invisible="False"/>
-						<field name="even" readonly="False"  invisible="False"/>
-						<field name="high" readonly="False"  invisible="False"/>
-						<field name="low" readonly="False"  invisible="False"/>
-						<field name="res_sum" readonly="False"  invisible="False"/>
-
-					</group>
-
-
-				</sheet>
-				</form>
-			</field>
-		</record>
-		<!-- Lotto results - Tree view -->
-		<record id="view_lotto_results_records_tree" model="ir.ui.view">
-			<field name="name">view.lotto.results.records.tree</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<tree string="Lotto Results">
-						<field name="name" />
-						<field name="sorted_name" />
-						<field name="date_drawn" />
-
-				</tree>
-			</field>
-		</record>
-
-		<!-- Summary - Tree view -->
-		<record id="view_dated_summary_records_tree" model="ir.ui.view">
-			<field name="name">lotto.records.summary</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<tree string="Lotto Results">
-						<field name="name" />
-						<field name="date_drawn" />
-
-				</tree>
-			</field>
-		</record>
-
-		<!-- Lotto Records Analysis - Tree view -->
-		<record id="view_records_analysis_tree" model="ir.ui.view">
-			<field name="name">view.records.analysis.tree</field>
-			<field name="model">results.analysis</field>
-			<field name="arch" type="xml">
-				<tree string="Lotto Records Analysis">
-						<field name="name" />
-						<field name="date" />
-
-				</tree>
-			</field>
-		</record>
-
-		<!-- Lotto Records Analysis - Tree view -->
-		<record id="view_records_analysis_beta_tree" model="ir.ui.view">
-			<field name="name">view.records.analysis.beta.tree</field>
-			<field name="model">results.analysis.beta</field>
-			<field name="arch" type="xml">
-				<tree string="Lotto Records Analysis">
-						<field name="name" />
-						<field name="date" />
-
-				</tree>
-			</field>
-		</record>
-
-		<!-- Lotto results - Tree view : Advance-->
-		<record id="advance_view_lotto_results_records_tree" model="ir.ui.view">
-			<field name="name">view.lotto.results.records.tree</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<tree string="Lotto Results">
-						<field name="name" />
-						<field name="date_drawn" />
-						<field name="odd" />
-						<field name="even" />
-						<field name="high" />
-						<field name="low" />
-						<field name="res_sum" />
-				</tree>
-			</field>
-		</record>
-
-		<record id="advance_lotto_results_records_search" model="ir.ui.view">
-			<field name="name">advance.lotto.results.records.search</field>
-			<field name="model">lotto.records</field>
-			<field name="arch" type="xml">
-				<search string="Lotto Results">
-						<field name="year"/>
-						<field name="month" />
-						<field name="day" />
-						<field name="day_of_week" />
-						
-						
-
-					<group string="Group by ...">
-						<filter string="Year" name="group_year" domain="[]" context="{'group_by':'year'}" />
-						<filter string="Day" name="group_day" domain="[]" context="{'group_by':'day'}" />
-						<filter string="Month" name="group_month" domain="[]" context="{'group_by':'month'}" />
-						<filter string="Day of Week" name="group_day_of_week" domain="[]" context="{'group_by':'day_of_week'}" />
-						
-						
-					</group>
-				</search>
-			</field>
-		</record>
-
-		<!-- Patern Recognition - Form View  -->
-		<record id="pattern_recognition_form_view" model="ir.ui.view">
-			<field name="name">pattern.recognition.form.view</field>
-			<field name="model">pattern.recognition</field>
-			<field name="arch" type="xml">
-				<form string="Pattern Recognition">
+			<!-- Lotto results - Form view -->
+			<record id="view_lotto_results_records_form" model="ir.ui.view">
+				<field name="name">view.lotto.results.records.form</field>
+				<field name="model">lotto.records</field>
+				<field name="arch" type="xml">
+					<form string="Lotto Results">
 					<sheet>
-						<separator string="Pattern Recognition"/>
+
+						<h1>Lotto 6/42</h1>
 						<br/>
-						<group>
-							<h3>Method 1</h3><br/>
-							<p>The button will sync the new Employee records from HRIS to Odoo system. 
-							</p>
-							<button name="find_pattern_consecutive" string="Execute" type="object"/>
-							<br/>
-							<br/>
+						<br/>
+						<group col="4">
+							<field name="name" style="width: 20" readonly="True" />
+							<field name="date_drawn" readonly="True"/>
 						</group>
+						<br/><br/>
+
+						<center><h3>Odd-Even Combination</h3></center>
 						<group>
-							<h3>Method 2</h3><br/>
-							<p>The button will update the Employee records.
-							</p>
-							<button name="find_pattern_consecutive" string="Execute" type="object"/>
-							<br/>
-							<br/>
+							<field name="odd" readonly="True" />
+							<field name="even" readonly="True" />
 						</group>
+						<br/><br/>
+
+						<center><h3>High-Low Combination</h3></center>
+						<group>
+							<field name="high" readonly="True" />
+							<field name="low" readonly="True" />
+						</group>
+						<br/><br/>
+
+						<center><h3>Sum of Numbers</h3></center>
+						<group>
+							<field name="res_sum" readonly="True" />
+						</group>
+						<br/><br/>
+
+						<center><h3>Consecutive Numbers</h3></center>
+						<group>
+							<field name="consecutive" readonly="True" />
+						</group>
+						<br/><br/>
 
 
 
 					</sheet>
-				</form>
-			</field>
-		</record>
-		<!-- ====================================================================== -->
-		<!-- Lotto results action -->
-		<record id="action_lotto_results_records" model="ir.actions.act_window">
-			<field name="name">Lotto Results</field>
-			<field name="res_model">lotto.records</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{}</field>
-			<field name="help"></field>
-		</record>
+					</form>
+				</field>
+			</record>
+		
+			<!-- Lotto results - Tree view -->
+			<record id="view_lotto_results_records_tree" model="ir.ui.view">
+				<field name="name">view.lotto.results.records.tree</field>
+				<field name="model">lotto.records</field>
+				<field name="arch" type="xml">
+					<tree string="Lotto Results">
+							<field name="name" />
+							<field name="sorted_name" />
+							<field name="date_drawn" />
 
-		<!-- Lotto results tree-->
-		<record model="ir.actions.act_window.view" id="action_lotto_results_records_tree_view">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_lotto_results_records_tree"/>
-			<field name="act_window_id" ref="action_lotto_results_records"/>
-		</record>
+					</tree>
+				</field>
+			</record>
 
-		<!-- Lotto results form --> 
-		<record model="ir.actions.act_window.view" id="action_lotto_results_records_form_view">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_lotto_results_records_form"/>
-			<field name="act_window_id" ref="action_lotto_results_records"/>
-		</record>
-		<!-- ====================================================================== -->
-		<!-- Lotto results action : Advance-->
-		<record id="action_lotto_results_records_advance" model="ir.actions.act_window">
-			<field name="name">Lotto Results</field>
-			<field name="res_model">lotto.records</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{'search_default_group_year':1,'search_default_group_month':1,'search_default_group_day_of_week':1}</field>
-			<field name="help"></field>
-		</record>
+			<!-- Lotto results action -->
+			<record id="action_lotto_results_records" model="ir.actions.act_window">
+				<field name="name">Lotto Results</field>
+				<field name="res_model">lotto.records</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">form,tree</field>
+				<field name="search_view_id" eval="False"/>
+				<field name="context">{}</field>
+				<field name="help"></field>
+			</record>
 
-		<!-- Lotto results tree : Advance-->
-		<record model="ir.actions.act_window.view" id="action_lotto_results_records_tree_view_advance">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="advance_view_lotto_results_records_tree"/>
-			<field name="act_window_id" ref="action_lotto_results_records_advance"/>
-		</record>
+			<!-- Lotto results tree-->
+			<record model="ir.actions.act_window.view" id="action_lotto_results_records_tree_view">
+				<field eval="1" name="sequence"/>
+				<field name="view_mode">tree</field>
+				<field name="view_id" ref="view_lotto_results_records_tree"/>
+				<field name="act_window_id" ref="action_lotto_results_records"/>
+			</record>
 
-		<!-- Lotto results form : Advance--> 
-		<record model="ir.actions.act_window.view" id="action_lotto_results_records_form_view_advance">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_lotto_results_records_form"/>
-			<field name="act_window_id" ref="action_lotto_results_records_advance"/>
-		</record>
-		<!-- ====================================================================== -->
-		<!-- Encode: Lotto results action -->
-		<record id="action_encode_lotto_results_records" model="ir.actions.act_window">
-			<field name="name">Lotto Results</field>
-			<field name="res_model">lotto.records</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{}</field>
-			<field name="help"></field>
-		</record>
-
-		<!-- Encode: Lotto results tree-->
-		<record model="ir.actions.act_window.view" id="action_encode_lotto_results_records_tree_view">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_lotto_results_records_tree"/>
-			<field name="act_window_id" ref="action_encode_lotto_results_records"/>
-		</record>
-
-		<!-- Encode: Lotto results form --> 
-		<record model="ir.actions.act_window.view" id="action_encode_lotto_results_records_form_view">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_encode_lotto_results_records_form"/>
-			<field name="act_window_id" ref="action_encode_lotto_results_records"/>
-		</record>
-		<!-- ====================================================================== -->
-
-		<!-- ====================================================================== -->
-		<!-- Encode: Lotto results action -->
-		<record id="action_dated_summary_records" model="ir.actions.act_window">
-			<field name="name">Lotto Records Sumamry</field>
-			<field name="res_model">lotto.records.summary</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{}</field>
-			<field name="help"></field>
-		</record>
-
-		<!-- Encode: Lotto results tree-->
-		<record model="ir.actions.act_window.view" id="action_dated_summary_records_tree_view">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_dated_summary_records_tree"/>
-			<field name="act_window_id" ref="action_dated_summary_records"/>
-		</record>
-
-		<!-- Encode: Lotto results form --> 
-		<record model="ir.actions.act_window.view" id="action_dated_summary_records_form_view">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_dated_summary_results_records_form"/>
-			<field name="act_window_id" ref="action_dated_summary_records"/>
-		</record>
-		<!-- ====================================================================== -->
-
-		<!-- ====================================================================== -->
-		<!-- Encode: Records Analysis action -->
-		<record id="action_records_analysis" model="ir.actions.act_window">
-			<field name="name">Lotto Records Analysis</field>
-			<field name="res_model">results.analysis</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{}</field>
-			<field name="help"></field>
-		</record>
-
-		<!-- Encode: Records Analysis tree-->
-		<record model="ir.actions.act_window.view" id="action_records_analysis_tree_view">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_records_analysis_tree"/>
-			<field name="act_window_id" ref="action_records_analysis"/>
-		</record>
-
-		<!-- Encode: Records Analysis form --> 
-		<record model="ir.actions.act_window.view" id="action_records_analysis_form_view">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_records_analysis_form"/>
-			<field name="act_window_id" ref="action_records_analysis"/>
-		</record>
-		<!-- ====================================================================== -->
-
-		<!-- ====================================================================== -->
-		<!-- Encode: Records Analysis Beta action -->
-		<record id="action_records_analysis_beta" model="ir.actions.act_window">
-			<field name="name">Lotto Records Analysis Beta</field>
-			<field name="res_model">results.analysis.beta</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form,tree</field>
-			<field name="search_view_id" eval="False"/>
-			<field name="context">{}</field>
-			<field name="help"></field>
-		</record>
-
-		<!-- Encode: Records Analysis tree-->
-		<record model="ir.actions.act_window.view" id="action_records_analysis_beta_tree_view">
-			<field eval="1" name="sequence"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_records_analysis_beta_tree"/>
-			<field name="act_window_id" ref="action_records_analysis_beta"/>
-		</record>
-
-		<!-- Encode: Records Analysis form --> 
-		<record model="ir.actions.act_window.view" id="action_records_analysis_beta_form_view">
-			<field eval="2" name="sequence"/>
-			<field name="view_mode">form</field>
-			<field name="view_id" ref="view_records_analysis_beta_form"/>
-			<field name="act_window_id" ref="action_records_analysis_beta"/>
-		</record>
-		<!-- ====================================================================== -->		
-
-		<!-- ===================== Patern Recognition - ACTION ========================== -->
-		<record id="patern_recognition_methods_action" model="ir.actions.act_window">
-			<field name="name">Patern Recognition</field>
-			<field name="res_model">pattern.recognition</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">form</field>
-			<field name="search_view_id" eval="False"/>
-		</record>
-
-		<!-- ====================================================================== -->
+			<!-- Lotto results form --> 
+			<record model="ir.actions.act_window.view" id="action_lotto_results_records_form_view">
+				<field eval="2" name="sequence"/>
+				<field name="view_mode">form</field>
+				<field name="view_id" ref="view_lotto_results_records_form"/>
+				<field name="act_window_id" ref="action_lotto_results_records"/>
+			</record>
 
 
-		<!-- Lotto 6/42 -->
-		<menuitem name="Lotto 642" id="main_lotto_menu" sequence="1" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
-
-		<!-- Lotto Results -->
-		<menuitem id="results_menu" name="Lotto Results" parent="main_lotto_menu" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
-
-		<menuitem id="encode_lotto_records_menu" name="Encode" parent="results_menu" action="action_encode_lotto_results_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
-
-		<menuitem id="lotto_records_menu_user" name="6/42" parent="results_menu" action="action_lotto_results_records" sequence="2" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user"/>
-
-		<menuitem id="lotto_records_menu_user_advance" name="6/42 (pro)" parent="results_menu" action="action_lotto_results_records_advance" sequence="3" groups="claire_ph.group_admin,claire_ph.group_user"/>
-
-		<!-- Summary -->
-		<menuitem id="summary_menu" name="Summary" parent="main_lotto_menu" sequence="2" groups="claire_ph.group_admin"/>
-
-		<menuitem id="dated_summary_menu" name="Summary by Date" parent="summary_menu" action="action_dated_summary_records" sequence="1"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
-
-		<menuitem id="records_analysis_menu" name="Record Analysis" parent="summary_menu" action="action_records_analysis" sequence="2"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
-
-		<menuitem id="records_analysis_beta_menu" name="Record Analysis (B)" parent="summary_menu" action="action_records_analysis_beta" sequence="3"  groups="claire_ph.group_admin,claire_ph.group_encoder"/>
-
-		<!-- Configuration -->
-		<menuitem id="configuration_menu" name="Configurations" parent="main_lotto_menu" sequence="3" groups="claire_ph.group_admin"/>
-
-		<!-- Pattern Recognition -->
-		<menuitem id="patern_recognition_menu" parent="main_lotto_menu" name="Patern Recognition" sequence="4"/>
-
-		<menuitem id="patern_recognition_methods_menu" name="Beta A" parent="patern_recognition_menu" action="patern_recognition_methods_action" sequence="1"/>
-
-
+			<menuitem id="lotto_records_menu_user" name="6/42" parent="results_menu" action="action_lotto_results_records" sequence="2" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user"/>
+		<!-- Lotto Results - 6/42 Menu -->
 
 	</data>
 </openerp>

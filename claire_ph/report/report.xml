@@ -2,79 +2,7 @@
 <openerp>
 	<data>
 	
-		<record id="daily_reporting_report" model="ir.actions.report.xml">
-			<field name="name">Daily Report</field>
-			<field name="report_name">daily.reporting.report</field>
-			<field name="model">X</field>
-			<field name="auto" eval="False"/> 
-			<field name="rml">claire_ph/report/monthly.prpt</field> 
-			<field name="is_pentaho_report" eval="True"/>
-			<!--<field name="pentaho_report_model_id" ref="claire_ph.lotto_records"/>-->
-			<field name="pentaho_report_output_type">pdf</field>
-			<field name="report_type">pentaho</field>
-			<field name="pentaho_filename">claire_ph/report/monthly.prpt</field>
-			<field name="pentaho_load_file" eval="True"/>
-		</record>
 
-		<!-- selected year -->
-		<record id="summary_result_report" model="ir.actions.report.xml">
-			<field name="name">Summary Result</field>
-			<field name="report_name">summary.result.report</field>
-			<field name="model">X</field>
-			<field name="auto" eval="False"/> 
-			<field name="rml">claire_ph/report/summary.prpt</field> 
-			<field name="is_pentaho_report" eval="True"/>
-			<!--<field name="pentaho_report_model_id" ref="claire_ph.lotto_records"/>-->
-			<field name="pentaho_report_output_type">pdf</field>
-			<field name="report_type">pentaho</field>
-			<field name="pentaho_filename">claire_ph/report/summary.prpt</field>
-			<field name="pentaho_load_file" eval="True"/>
-		</record>
-
-		<!-- all year -->
-		<record id="summary_result_report_2" model="ir.actions.report.xml">
-			<field name="name">Summary Result</field>
-			<field name="report_name">summary.result.report.2</field>
-			<field name="model">X</field>
-			<field name="auto" eval="False"/> 
-			<field name="rml">claire_ph/report/summary_2.prpt</field> 
-			<field name="is_pentaho_report" eval="True"/>
-			<!--<field name="pentaho_report_model_id" ref="claire_ph.lotto_records"/>-->
-			<field name="pentaho_report_output_type">pdf</field>
-			<field name="report_type">pentaho</field>
-			<field name="pentaho_filename">claire_ph/report/summary_2.prpt</field>
-			<field name="pentaho_load_file" eval="True"/>
-		</record>
-
-		<!-- selected year -->
-		<record id="summary_result_v2_report" model="ir.actions.report.xml">
-			<field name="name">Summary Result</field>
-			<field name="report_name">summary.result.report.v2</field>
-			<field name="model">X</field>
-			<field name="auto" eval="False"/> 
-			<field name="rml">claire_ph/report/summary_v2.prpt</field> 
-			<field name="is_pentaho_report" eval="True"/>
-			<!--<field name="pentaho_report_model_id" ref="claire_ph.lotto_records"/>-->
-			<field name="pentaho_report_output_type">pdf</field>
-			<field name="report_type">pentaho</field>
-			<field name="pentaho_filename">claire_ph/report/summary_v2.prpt</field>
-			<field name="pentaho_load_file" eval="True"/>
-		</record>
-
-		<!-- all year -->
-		<record id="summary_result_v2_report_2" model="ir.actions.report.xml">
-			<field name="name">Summary Result</field>
-			<field name="report_name">summary.result.report.v2.2</field>
-			<field name="model">X</field>
-			<field name="auto" eval="False"/> 
-			<field name="rml">claire_ph/report/summary_v2_2.prpt</field> 
-			<field name="is_pentaho_report" eval="True"/>
-			<!--<field name="pentaho_report_model_id" ref="claire_ph.lotto_records"/>-->
-			<field name="pentaho_report_output_type">pdf</field>
-			<field name="report_type">pentaho</field>
-			<field name="pentaho_filename">claire_ph/report/summary_v2_2.prpt</field>
-			<field name="pentaho_load_file" eval="True"/>
-		</record>
 
 	</data>
 </openerp>

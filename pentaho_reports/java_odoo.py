@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from datetime import datetime
+from odoo.api import Environment
 
 TYPE_STRING = 'str'
 TYPE_BOOLEAN = 'bool'
@@ -9,13 +10,13 @@ TYPE_NUMBER = 'num'
 TYPE_DATE = 'date'
 TYPE_TIME = 'dtm'
 
-OPENERP_DATA_TYPES = [(TYPE_STRING, 'String'),
-                      (TYPE_BOOLEAN, 'Boolean'),
-                      (TYPE_INTEGER, 'Integer'),
-                      (TYPE_NUMBER, 'Number'),
-                      (TYPE_DATE, 'Date'),
-                      (TYPE_TIME, 'Date Time'),
-                      ]
+ODOO_DATA_TYPES = [(TYPE_STRING, 'String'),
+                   (TYPE_BOOLEAN, 'Boolean'),
+                   (TYPE_INTEGER, 'Integer'),
+                   (TYPE_NUMBER, 'Number'),
+                   (TYPE_DATE, 'Date'),
+                   (TYPE_TIME, 'Date Time'),
+                   ]
 
 """
 Define mappings as functions, which can be passed the data format to make them conditional.
@@ -101,7 +102,7 @@ def parameter_resolve_column_name(parameters, index):
 RESERVED_PARAMS = {
                    'ids': lambda s, cr, uid, d: d.get('ids',[]),
                    'user_id': lambda s, cr, uid, d: d.get('uid', 0),
-                   'user_name': lambda s, cr, uid, d: d.get('uid') and s.pool.get('res.users').browse(cr, uid, d['uid'], context=d.get('context')).name or '',
+                   'user_name': lambda s, cr, uid, d: d.get('uid') and Environment(cr, uid, {})['res.users'].browse(d['uid']).name or '',
                    'context_lang': lambda s, cr, uid, d: d.get('context', {}).get('lang', ''),
                    'context_tz': lambda s, cr, uid, d: d.get('context', {}).get('tz', ''),
                    }

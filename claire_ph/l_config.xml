@@ -1,0 +1,77 @@
+<openerp>
+	<data>
+
+		<!-- Configuration - Main Menu -->
+			<menuitem id="configuration_menu" name="Configurations" parent="main_lotto_menu" sequence="3" groups="claire_ph.group_admin"/>
+		<!-- Configuration - Main Menu -->
+
+		<!-- Upload Results - Menu -->
+
+			<record id="upload_lotto_results_form" model="ir.ui.view">
+				<field name="name">upload.lotto.results.form</field>
+				<field name="model">upload.lotto.results</field>
+				<field name="arch" type="xml">
+					<form string="" version="7.0">
+						<sheet> 
+							<p><i>Click the "Download template" to get a sample format of the upload template.</i></p>
+							<button name="get_template" string="Download Template" type="object" class="oe_highlight"/>
+							<br/>
+							<br/><br/>
+							<p><i>After editing the sample template click the "Upload your file button" to upload.</i></p>
+							<group>
+								<!--<field name="school_year" required="False" invisible="True"/>-->
+								<field name="data" on_change="onchange_data(data)" filename="data_filename"/>
+								<field name="data_filename" invisible="True"/>
+								<field name="valid" invisible="0"/>
+								<field name="date_format" invisible="0"/>
+								<!--<field name="temp_file" readonly="1"/>-->
+								
+
+							</group>
+
+
+							<div style="color:red">
+								<field name="invalid"/>
+							</div>
+
+							
+							<notebook>
+								<page string="Results">
+									<field name="upload_result_line">
+										<tree editable="result_id">
+
+											<field name="lotto_game"/>
+											<field name="combination"/>
+											<field name="draw_date"/>
+											<field name="jackpot"/>
+											<field name="winners"/>	
+								
+										</tree>
+									</field>
+								</page>
+							</notebook>
+							
+						</sheet>
+						<footer>
+							<button name="upload_results" string="Upload Leads" type="object" class="oe_highlight" attrs="{'invisible': [('valid','=', False)] }"/>
+							<button name="test" string="Test" type="object" class="oe_highlight" invisible="False"/>
+						</footer>
+					</form>
+				</field>
+			</record>
+
+			<record id="upload_lotto_results_action" model="ir.actions.act_window">
+				<field name="name">Lotto Results Uploader</field>
+				<field name="res_model">upload.lotto.results</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">form</field> 
+				<field name="target">new</field>
+			</record>
+
+			<menuitem id="upload_lotto_results_menu" name="Upload Lotto Results" action="upload_lotto_results_action" parent="configuration_menu" sequence="1" />
+
+
+		<!-- Upload Results - Menu -->
+
+	</data>
+</openerp>

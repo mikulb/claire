@@ -19,7 +19,9 @@ Philippine Charity Sweepstakes Office (PCSO) Lotto
     'data': [
         'security/claire_security.xml',
         'security/ir.model.access.csv',
+        'l_main.xml',
         'report/report.xml',
+        'l_config.xml',
         'l_642.xml',
         'wizard/printout.xml',
     ],

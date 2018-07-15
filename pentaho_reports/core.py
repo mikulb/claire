@@ -5,20 +5,16 @@
 import xmlrpclib
 import base64
 
-from openerp import netsvc
-from openerp import pooler
-from openerp import report
-from openerp import models, fields, _
-from openerp.exceptions import except_orm
-from openerp.tools import config
+from odoo.report.interface import report_int
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+from odoo.tools import config
 import logging
 import time
-import openerp
 from datetime import datetime
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
-from openerp import SUPERUSER_ID
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
-from .java_oe import JAVA_MAPPING, check_java_list, PARAM_VALUES, RESERVED_PARAMS
+from .java_odoo import JAVA_MAPPING, check_java_list, PARAM_VALUES, RESERVED_PARAMS
 
 _logger = logging.getLogger(__name__)
 
@@ -33,12 +29,8 @@ VALID_OUTPUT_TYPES = [('pdf', 'Portable Document (pdf)'),
                       ]
 DEFAULT_OUTPUT_TYPE = 'pdf'
 
-PENTAHO_TEMP_USER_PW = 'TempPWPentaho'
-PENTAHO_TEMP_USER_LOGIN = '%s (Pentaho)'
-
 def get_date_length(date_format=DEFAULT_SERVER_DATE_FORMAT):
     return len((datetime.now()).strftime(date_format))
-
 
 class _format(object):
 
@@ -47,7 +39,6 @@ class _format(object):
         self._field = field
         self.name = name
         self.lang_obj = lang_obj
-
 
 class _float_format(float, _format):
     def __init__(self, value):
@@ -62,7 +53,6 @@ class _float_format(float, _format):
             return self.lang_obj.format('%.' + str(digits) + 'f', self.name, True)
         return str(self.val)
 
-
 class _int_format(int, _format):
     def __init__(self, value):
         super(_int_format, self).__init__()
@@ -72,7 +62,6 @@ class _int_format(int, _format):
         if hasattr(self, 'lang_obj'):
             return self.lang_obj.format('%.d', self.name, True)
         return str(self.val)
-
 
 class _date_format(str, _format):
     def __init__(self, value):
@@ -86,7 +75,6 @@ class _date_format(str, _format):
                 return date.strftime(str(self.lang_obj.date_format))
         return self.val
 
-
 class _dttime_format(str, _format):
     def __init__(self, value):
         super(_dttime_format, self).__init__()
@@ -98,7 +86,6 @@ class _dttime_format(str, _format):
                    .strftime("%s %s" % (str(self.lang_obj.date_format),
                                       str(self.lang_obj.time_format)))
         return self.val
-
 
 class browse_record_list(list):
     def __init__(self, lst, context):
@@ -119,7 +106,6 @@ _fields_process = {
         'datetime': _dttime_format
     }
 
-
 def get_proxy_args(instance, cr, uid, prpt_content, context_vars={}):
     """Return the arguments needed by Pentaho server proxy.
 
@@ -130,33 +116,34 @@ def get_proxy_args(instance, cr, uid, prpt_content, context_vars={}):
              as reserved parameters evaluated according to values in
              the dictionary "context_vars".
     """
-    pool = pooler.get_pool(cr.dbname)
+    env = api.Environment(cr, uid, {})
 
-    current_user = pool.get('res.users').browse(cr, uid, uid)
-    config_obj = pool.get('ir.config_parameter')
+    current_user = env['res.users'].browse(uid)
+    IRConfig = env['ir.config_parameter']
 
-    temp_user_login = pool.get('res.users').pentaho_temp_user_find(cr, uid, uid)
+    proxy_url = IRConfig.get_param('pentaho.server.url', default='http://localhost:8080/pentaho-reports-for-odoo')
 
-    proxy_url = config_obj.get_param(cr, uid, 'pentaho.server.url', default='http://localhost:8080/pentaho-reports-for-openerp')
+    xml_interface = IRConfig.get_param('pentaho.odoo.xml.interface', default='').strip() or config['xmlrpc_interface'] or 'localhost'
+    xml_port = IRConfig.get_param('pentaho.odoo.xml.port', default='').strip() or str(config['xmlrpc_port'])
 
-    xml_interface = config_obj.get_param(cr, uid, 'pentaho.openerp.xml.interface', default='').strip() or config['xmlrpc_interface'] or 'localhost'
-    xml_port = config_obj.get_param(cr, uid, 'pentaho.openerp.xml.port', default='').strip() or str(config['xmlrpc_port'])
+    password_to_use = env['res.users'].browse(uid).pentaho_pass_token()
 
     proxy_argument = {
                       'prpt_file_content': xmlrpclib.Binary(prpt_content),
-                      'connection_settings': {'openerp': {'host': xml_interface,
-                                                          'port': xml_port,
-                                                          'db': cr.dbname,
-                                                          'login': temp_user_login,
-                                                          'password': PENTAHO_TEMP_USER_PW,
-                                                          }},
+                      'connection_settings': {'odoo': {'host': xml_interface,
+                                                       'port': xml_port,
+                                                       'db': cr.dbname,
+                                                       'login': current_user.login,
+                                                       'password': password_to_use,
+                                                       },
+                                              },
                       'report_parameters': dict([(param_name, param_formula(instance, cr, uid, context_vars)) for (param_name, param_formula) in RESERVED_PARAMS.iteritems() if param_formula(instance, cr, uid, context_vars)]),
                       }
 
-    postgresconfig_host = config_obj.get_param(cr, uid, 'pentaho.postgres.host', default='localhost')
-    postgresconfig_port = config_obj.get_param(cr, uid, 'pentaho.postgres.port', default='5432')
-    postgresconfig_login = config_obj.get_param(cr, uid, 'pentaho.postgres.login')
-    postgresconfig_password = config_obj.get_param(cr, uid, 'pentaho.postgres.password')
+    postgresconfig_host = IRConfig.get_param('pentaho.postgres.host', default='localhost')
+    postgresconfig_port = IRConfig.get_param('pentaho.postgres.port', default='5432')
+    postgresconfig_login = IRConfig.get_param('pentaho.postgres.login')
+    postgresconfig_password = IRConfig.get_param('pentaho.postgres.password')
 
     if postgresconfig_host and postgresconfig_port and postgresconfig_login and postgresconfig_password:
         proxy_argument['connection_settings'].update({'postgres': {'host': postgresconfig_host,
@@ -168,31 +155,44 @@ def get_proxy_args(instance, cr, uid, prpt_content, context_vars={}):
 
     return proxy_url, proxy_argument
 
+def clean_proxy_args(instance, cr, uid, prpt_content, proxy_argument):
+    env = api.Environment(cr, uid, {})
+    env['res.users'].browse(uid).pentaho_undo_token(proxy_argument.get('connection_settings',{}).get('odoo',{}).get('password',''))
 
 class Report(object):
     def __init__(self, name, cr, uid, ids, data, context):
+        env = api.Environment(cr, uid, context)
+        user = env['res.users'].browse(uid)
+
         self.name = name
         self.cr = cr
         self.uid = uid
         self.ids = ids
         self.data = data
         self.context = context or {}
-        self.pool = pooler.get_pool(self.cr.dbname)
         self.prpt_content = None
         self.default_output_type = DEFAULT_OUTPUT_TYPE
         self.context_vars = {
                              'ids': self.ids,
                              'uid': self.uid,
                              'context': self.context,
+                             'user': user,
+                             #
+#                              'lang' : user.company_id.partner_id.lang,
                              }
+#         self.setCompany(user.company_id)
+#         self._lang_cache = {}
+#         self.lang_dict = {}
+#         self.default_lang = {}
+#         self.lang_dict_called = False
 
     def setup_report(self):
-        ids = self.pool.get('ir.actions.report.xml').search(self.cr, self.uid, [('report_name', '=', self.name[len(SERVICE_NAME_PREFIX):]), ('report_type', '=', 'pentaho')], context=self.context)
-        if not ids:
-            raise except_orm(_('Error'), _("Report service name '%s' is not a Pentaho report.") % self.name[len(SERVICE_NAME_PREFIX):])
-        data = self.pool.get('ir.actions.report.xml').read(self.cr, self.uid, ids[0], ['pentaho_report_output_type', 'pentaho_file'])
-        self.default_output_type = data['pentaho_report_output_type'] or DEFAULT_OUTPUT_TYPE
-        self.prpt_content = base64.decodestring(data["pentaho_file"])
+        env = api.Environment(self.cr, self.uid, {})
+        report = env['ir.actions.report.xml'].search([('report_name', '=', self.name[len(SERVICE_NAME_PREFIX):]), ('report_type', '=', 'pentaho')], limit=1)
+        if not report:
+            raise ValidationError(_("Report service name '%s' is not a Pentaho report.") % self.name[len(SERVICE_NAME_PREFIX):])
+        self.default_output_type = report.pentaho_report_output_type or DEFAULT_OUTPUT_TYPE
+        self.prpt_content = base64.decodestring(report.pentaho_file)
 
     def execute(self):
         self.setup_report()
@@ -209,7 +209,10 @@ class Report(object):
 
         proxy_url, proxy_argument = get_proxy_args(self, self.cr, self.uid, self.prpt_content, self.context_vars)
         proxy = xmlrpclib.ServerProxy(proxy_url)
-        return proxy.report.getParameterInfo(proxy_argument)
+        result = proxy.report.getParameterInfo(proxy_argument)
+
+        clean_proxy_args(self, self.cr, self.uid, self.prpt_content, proxy_argument)
+        return result
 
     def execute_report(self):
         proxy_url, proxy_argument = get_proxy_args(self, self.cr, self.uid, self.prpt_content, self.context_vars)
@@ -233,55 +236,49 @@ class Report(object):
                         proxy_argument['report_parameters'][parameter['name']] = [proxy_argument['report_parameters'][parameter['name']]]
 
         rendered_report = proxy.report.execute(proxy_argument).data
-
-        pool = pooler.get_pool(self.cr.dbname)
-        pool.get('res.users').pentaho_temp_users_unlink(self.cr, self.uid, [self.uid])
+        clean_proxy_args(self, self.cr, self.uid, self.prpt_content, proxy_argument)
 
         if len(rendered_report) == 0:
-            raise except_orm(_('Error'), _("Pentaho returned no data for the report '%s'. Check report definition and parameters.") % self.name[len(SERVICE_NAME_PREFIX):])
+            raise ValidationError(_("Pentaho returned no data for the report '%s'. Check report definition and parameters.") % self.name[len(SERVICE_NAME_PREFIX):])
 
         return (rendered_report, output_type)
 
 
-class PentahoReportOpenERPInterface(report.interface.report_int):
-    def __init__(self, name):
-        super(PentahoReportOpenERPInterface, self).__init__(name)
+class PentahoReportOdooInterface(report_int):
+    def __init__(self, name, register=True):
+        super(PentahoReportOdooInterface, self).__init__(name, register=register)
 
     def create(self, cr, uid, ids, data, context):
         name = self.name
+        env = api.Environment(cr, uid, context)
+
+        report_xml = env['ir.actions.report.xml'].search([('report_name', '=', name[len(SERVICE_NAME_PREFIX):])], limit=1)
+        if report_xml and report_xml.attachment:
+            for id in ids:
+                report_instance = Report(name, cr, uid, [id], data, context)
+                rendered_report, output_type = report_instance.execute()
+                self.create_attachment(cr, uid, [id], report_xml.attachment, rendered_report, output_type, report_xml.pentaho_report_model_id.model, context=context)
+            if len(ids) == 1:
+                # If only one, do not need to re-run
+                return rendered_report, output_type
+
         report_instance = Report(name, cr, uid, ids, data, context)
-
-        pool = pooler.get_pool(cr.dbname)
-        ir_pool = pool.get('ir.actions.report.xml')
-        report_xml_ids = ir_pool.search(cr, uid,
-                [('report_name', '=', name[len(SERVICE_NAME_PREFIX):])], context=context)
-
         rendered_report, output_type = report_instance.execute()
-        if report_xml_ids:
-            report_xml = ir_pool.browse(cr, uid, report_xml_ids[0], context=context)
-            if report_xml.attachment:
-                crtemp = pooler.get_db(cr.dbname).cursor()  # Creating new cursor to prevent TransactionRollbackError
-                                                            # when creating attachments, avoids concurrency issues
-                self.create_attachment(crtemp, uid, ids, report_xml.attachment, rendered_report, output_type, report_xml.pentaho_report_model_id.model, context=context)
-
-                crtemp.commit()  # It means attachment will be created even if error occurs
-                crtemp.close()
         return rendered_report, output_type
 
-    def getObjects(self, cr, uid, ids, model, context):
-        pool = pooler.get_pool(cr.dbname)
-        return pool.get(model).browse(cr, uid, ids, context=context)
-                                                    #list_class=browse_record_list, context=context, fields_process=_fields_process)
+#     def getObjects(self, cr, uid, ids, model, context):
+#         env = api.Environment(cr, uid, context or {})
+#         return env[model].browse(ids)
 
     def create_attachment(self, cr, uid, ids, attachment, rendered_report, output_type, model, context):
         """Generates attachment when report is called and links to object it is called from
         Returns: True """
-        objs = self.getObjects(cr, uid, ids, model, context)
-        pool = pooler.get_pool(cr.dbname)
-        attachment_pool = pool.get('ir.attachment')
+        env = api.Environment(cr, uid, context or {})
+        objs = env[model].browse(ids)
+        IRAttachment=env['ir.attachment']
         for obj in objs:
-            attachment_ids = attachment_pool.search(cr, uid, [('res_id', '=', obj.id), ('res_model', '=', model)], context=context)
-            aname = eval(attachment, {'object': obj, 'version': str(len(attachment_ids)), 'time': time.strftime('%Y-%m-%d')})
+            attachments = IRAttachment.search([('res_id', '=', obj.id), ('res_model', '=', model)])
+            aname = eval(attachment, {'object': obj, 'version': str(len(attachments)), 'time': time.strftime('%Y-%m-%d')})
             if aname:
                 try:
                     name = '%s%s' % (aname, '' if aname.endswith(output_type) else '.' + output_type)
@@ -291,14 +288,14 @@ class PentahoReportOpenERPInterface(report.interface.report_int):
                     # field.
                     ctx = dict(context)
                     ctx.pop('default_type', None)
-                    attachment_pool.create(cr, uid, {
-                        'name': name,
-                        'datas': base64.encodestring(rendered_report),
-                        'datas_fname': name,
-                        'res_model': model,
-                        'res_name': aname,
-                        'res_id': obj.id,
-                        }, context={}
+                    IRAttachment.create({
+                                         'name': name,
+                                         'datas': base64.encodestring(rendered_report),
+                                         'datas_fname': name,
+                                         'res_model': model,
+                                         'res_name': aname,
+                                         'res_id': obj.id,
+                                         },
                     )
                 except Exception:
                     #TODO: should probably raise a proper osv_except instead, shouldn't we? see LP bug #325632
@@ -315,7 +312,6 @@ def check_report_name(report_name):
         name = report_name
     return name
 
-
 def fetch_report_parameters(cr, uid, report_name, context=None):
     """Return the parameters object for this report.
 
@@ -327,106 +323,14 @@ def fetch_report_parameters(cr, uid, report_name, context=None):
     name = check_report_name(report_name)
     return Report(name, cr, uid, [1], {}, context).fetch_report_parameters()
 
-
-class ir_actions_report_xml(models.Model):
+class ReportXML(models.Model):
     _inherit = 'ir.actions.report.xml'
 
-#     def register_all(self, cr):
-#         cr.execute("""SELECT * FROM ir_act_report_xml
-#                         WHERE report_type = 'pentaho'
-#                         ORDER BY id
-#                     """)
-#         records = cr.dictfetchall()
-#         for record in records:
-#             register_pentaho_report(record['report_name'])
-# 
-#         return super(ir_actions_report_xml, self).register_all(cr)
+    @api.model_cr
+    def _lookup_report(self, name):
+        self.env.cr.execute("SELECT * FROM ir_act_report_xml WHERE report_name=%s and report_type=%s", (name, 'pentaho'))
+        r = self.env.cr.dictfetchone()
+        if r:
+            return PentahoReportOdooInterface(SERVICE_NAME_PREFIX+r['report_name'], register=False)
+        return super(ReportXML, self)._lookup_report(name)
 
-    #
-    # Code appropriated from webkit example...
-    def _lookup_report(self, cr, name):
-        """
-        Look up a report definition.
-        """
-        import operator
-        import os
-        opj = os.path.join
-
-        # First lookup in the deprecated place, because if the report definition
-        # has not been updated, it is more likely the correct definition is there.
-        # Only reports with custom parser specified in Python are still there.
-        if SERVICE_NAME_PREFIX + name in openerp.report.interface.report_int._reports:
-            new_report = openerp.report.interface.report_int._reports[SERVICE_NAME_PREFIX + name]
-            if not isinstance(new_report, PentahoReportOpenERPInterface):
-                new_report = None
-        else:
-            cr.execute("SELECT * FROM ir_act_report_xml WHERE report_name=%s and report_type=%s", (name, 'pentaho'))
-            r = cr.dictfetchone()
-            if r:
-#                 new_report = WebKitParser('report.'+r['report_name'],
-#                     r['model'], opj('addons',r['report_rml'] or '/'),
-#                     header=r['header'], register=False, **kwargs)
-                new_report = PentahoReportOpenERPInterface(SERVICE_NAME_PREFIX+r['report_name'])
-            else:
-                new_report = None
-
-        if new_report:
-            return new_report
-        else:
-            return super(ir_actions_report_xml, self)._lookup_report(cr, name)
-
-
-class res_users(models.Model):
-    _inherit = 'res.users'
-
-    def pentaho_temp_user_find(self, cr, uid, id, context=None):
-        user = self.browse(cr, SUPERUSER_ID, id, context=context)
-        temp_uids = self.search(cr, SUPERUSER_ID, [('login', '=', PENTAHO_TEMP_USER_LOGIN % user.login)], context=context)
-        if not temp_uids:
-            self.pentaho_temp_user_create(cr, uid, id, context=context)
-        return PENTAHO_TEMP_USER_LOGIN % user.login
-
-    def pentaho_temp_user_create(self, cr, uid, id, context=None):
-        # Remove default_partner_id set by some search views that could duplicate user with existing partner!
-        # Use copied context, to ensure we don't affect any processing outside of this method's scope.
-        ctx = (context or {}).copy()
-        ctx.pop('default_partner_id', None)
-        ctx['no_reset_password'] = True
-
-        crtemp = pooler.get_db(cr.dbname).cursor()
-        self.pentaho_temp_users_unlink(crtemp, uid, [id], context=context)
-        user = self.browse(cr, SUPERUSER_ID, id, context=context)
-        new_uid = self.copy(crtemp, SUPERUSER_ID, id, default={'login': PENTAHO_TEMP_USER_LOGIN % user.login,
-                                                               'password': PENTAHO_TEMP_USER_PW,
-                                                               'user_ids': False,
-                                                               'message_ids': False,
-                                                               'name': user.name,
-                                                               }, context=ctx)
-        crtemp.commit()
-        crtemp.close()
-        return new_uid
-
-    def pentaho_temp_users_unlink(self, cr, uid, ids, context=None):
-        crtemp = pooler.get_db(cr.dbname).cursor()
-        self._pentaho_temp_users_unlink(crtemp, uid, ids, context=context)
-        crtemp.commit()
-        crtemp.close()
-
-    def _pentaho_temp_users_unlink(self, crtemp, uid, ids, context=None):
-        """Unlink users and associated partners.
-        """
-        if type(ids) in (int, long):
-            ids = [ids]
-        existing_uids = []
-        for user in self.browse(crtemp, SUPERUSER_ID, self.search(crtemp, SUPERUSER_ID, [('id', 'in', ids)], context=context), context=context):
-            existing_uids.extend(self.search(crtemp, SUPERUSER_ID, [('login', '=', PENTAHO_TEMP_USER_LOGIN % user.login)], context=context))
-        existing_partner_ids = [x.partner_id.id for x in self.browse(crtemp, SUPERUSER_ID, existing_uids, context=context) if x.partner_id]
-        self.unlink(crtemp, SUPERUSER_ID, existing_uids, context=context)
-        self.pool.get('res.partner').unlink(crtemp, SUPERUSER_ID, existing_partner_ids, context=context)
-
-    def write(self, cr, uid, ids, values, context=None):
-        #
-        # Crude clean-up code - if something writes to res_users then assume it is OK to clean up temp users...
-        #
-        self.pentaho_temp_users_unlink(cr, uid, ids, context=context)
-        return super(res_users, self).write(cr, uid, ids, values, context=context)

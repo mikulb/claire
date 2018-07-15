@@ -1,0 +1,9 @@
+<openerp>
+	<data>
+
+		<!-- Lotto 6/42 - Main Menu-->
+			<menuitem name="Lotto 642" id="main_lotto_menu" sequence="1" groups="claire_ph.group_admin,claire_ph.group_guest,claire_ph.group_user,claire_ph.group_encoder"/>
+		<!-- Lotto 6/42 - Main Menu-->
+
+	</data>
+</openerp>
